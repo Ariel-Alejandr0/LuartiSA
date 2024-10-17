@@ -2,9 +2,7 @@ package model;
 
 import java.util.Date;
 
-
 public class Tarefa {
-    
 
     private int idTarefa;
     private String nomeTarefa;
@@ -13,12 +11,21 @@ public class Tarefa {
     private Date dataFim;
     private Status status;
     private int idTipoTarefa;
-    
+
     private enum Status {
-        Concluida, 
-        Iniciada, 
-        Pendente, 
-        Em_Andamento    };
+        Concluida,
+        Iniciada,
+        Pendente,
+        Em_Andamento
+    };
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public int getIdTarefa() {
         return idTarefa;
@@ -67,8 +74,5 @@ public class Tarefa {
     public void setIdTipoTarefa(int idTipoTarefa) {
         this.idTipoTarefa = idTipoTarefa;
     }
-
-
-
 
 }
