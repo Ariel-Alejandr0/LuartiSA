@@ -1,14 +1,16 @@
 import React from "react";
-import "../styles/table.css";
 
-const Table = ({ numeroMaximoDeLinhas, linhaDeCabecalho }) => {
+export default function Table({ numeroMaximoDeLinhas, linhaDeCabecalho }) {
   const numeroDeColunas = linhaDeCabecalho.length;
 
   // Geração de linhas de conteúdo vazias como exemplo
   const linhas = Array.from({ length: numeroMaximoDeLinhas }, (_, rowIndex) => (
     <React.Fragment key={rowIndex}>
       {Array.from({ length: numeroDeColunas }, (_, colIndex) => (
-        <div key={colIndex} className="table-cell">
+        <div
+          key={colIndex}
+          style={{ border: "1px solid #ccc", padding: 10, textAlign: "center" }}
+        >
           {/* Aqui você pode adicionar o conteúdo das células */}
           Conteúdo {rowIndex + 1}-{colIndex + 1}
         </div>
@@ -38,7 +40,8 @@ const Table = ({ numeroMaximoDeLinhas, linhaDeCabecalho }) => {
             key={index}
             style={{
               fontWeight: "bold",
-              backgroundColor: "#f0f0f0",
+              backgroundColor: "#FF6F21",
+              color: '#fff',
               border: "1px solid #ccc",
               padding: 10,
               textAlign: "center",
@@ -63,6 +66,4 @@ const Table = ({ numeroMaximoDeLinhas, linhaDeCabecalho }) => {
       </div>
     </div>
   );
-};
-
-export default Table;
+}
