@@ -23,7 +23,7 @@ export default function NavBar() {
           height: "50%",
           width: "40%",
         }}
-      >
+      > 
         <NavLink to={"/tarefas"} style={{color: '#fff'}}>Tarefas</NavLink>
         <NavLink to={"/cadastroDevs"} style={{color: '#fff'}}>Cadastro de Desenvolvedores</NavLink>
 
