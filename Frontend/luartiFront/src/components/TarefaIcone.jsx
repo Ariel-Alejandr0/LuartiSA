@@ -6,6 +6,8 @@ export default function TarefaIcone({
   numDevs,
   tipoTarefaDesc,
 }) {
+
+  
   return (
     <div
       style={{
@@ -16,7 +18,7 @@ export default function TarefaIcone({
         width: 225,
         height: 225,
         margin: '0 1%',
-        backgroundColor: "#FFF",
+        backgroundColor: "#fdf8f4",
         border: "3px solid #ff6f21",
         color: "#ff6f21",
         borderRadius: 15,
@@ -34,7 +36,7 @@ export default function TarefaIcone({
         <span style={{ fontSize: "500%", width: "50%" }}>📝</span>
         <div
           style={{
-            diplay: "flex",
+            display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
             width: "50%",

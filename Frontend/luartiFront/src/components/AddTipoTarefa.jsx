@@ -24,7 +24,7 @@ export default function AddTipoTarefa() {
             style={{
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-around",
+              justifyContent: "center",
             }}
           >
             <label>Descrição:</label>
@@ -33,7 +33,7 @@ export default function AddTipoTarefa() {
             style={{
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              justifyContent: "center",
             }}
           >
             <input id="descricao" className="swal2-input" />

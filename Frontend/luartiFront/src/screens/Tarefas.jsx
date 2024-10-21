@@ -33,6 +33,18 @@ export default function Tarefas() {
           numDevs={5}
           tipoTarefaDesc={"FRONTEND"}
         />
+        <TarefaIcone
+          prazoFinal={"22/10/1978 23:59"}
+          tituloTarefa={"Dar cachorro pra água"}
+          numDevs={5}
+          tipoTarefaDesc={"FRONTEND"}
+        />
+        <TarefaIcone
+          prazoFinal={"22/10/1978 23:59"}
+          tituloTarefa={"Jogar o lixeiro no lixo"}
+          numDevs={5}
+          tipoTarefaDesc={"FRONTEND"}
+        />
       </div>
     </MainLayout>
   );
