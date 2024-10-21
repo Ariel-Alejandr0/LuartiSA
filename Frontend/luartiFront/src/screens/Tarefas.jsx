@@ -22,7 +22,6 @@ export default function Tarefas() {
         style={{
           display: "flex",
           flexWrap: "wrap",
-          backgroundColor: "purple",
           flex: 1,
           width: "100%",
           overflowY: "auto",
