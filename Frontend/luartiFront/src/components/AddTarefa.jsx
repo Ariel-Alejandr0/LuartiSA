@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function AddDev() {
+export default function AddTarefa() {
   return (
     <button style={{
         backgroundColor: '#FF6F21',
@@ -8,6 +8,6 @@ export default function AddDev() {
         width: 200,
         height: 50,
         borderRadius: 25,
-    }}>+ Adicionar Dev</button>
+    }}>+ Adicionar Tarefa</button>
   )
 }
