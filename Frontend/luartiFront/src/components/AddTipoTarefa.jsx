@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export default function AddDev() {
+export default function AddTipoTarefa() {
   const MySwal = withReactContent(Swal);
   const createUserDataRef = useRef({});
 
@@ -27,9 +27,7 @@ export default function AddDev() {
               justifyContent: "space-around",
             }}
           >
-            <label>Nome Completo:</label>
-            <label>Email:</label>
-            <label>Senha:</label>
+            <label>Descrição:</label>
           </div>
           <div
             style={{
@@ -38,19 +36,16 @@ export default function AddDev() {
               justifyContent: "space-between",
             }}
           >
-            <input id="nomeCompleto" className="swal2-input"/>
-            <input id="email" className="swal2-input" />
-            <input id="senha" className="swal2-input" />
+            <input id="descricao" className="swal2-input" />
           </div>
         </div>
       ),
       preConfirm: () => ({
-        nomeCompleto: document.querySelector("#nomeCompleto").value,
-        email: document.querySelector("#email").value,
-        senha: document.querySelector("#senha").value,
+        descricao: document.querySelector("#descricao").value,
       }),
     });
     createUserDataRef.current = objForm;
+    console.log(createUserDataRef.current)
 
     MySwal.fire({
       title: "Sucesso!",
@@ -58,19 +53,18 @@ export default function AddDev() {
       text: "Desenvolvedor Cadastrado com sucesso.",
     });
   };
-
   return (
     <button
       onClick={handleOnClick}
       style={{
         backgroundColor: "#FF6F21",
         color: "#FFF",
-        width: 200,
+        width: 240,
         height: 50,
         borderRadius: 25,
       }}
     >
-      + Adicionar Dev
+      + Adicionar Tipo de Tarefa
     </button>
   );
 }
