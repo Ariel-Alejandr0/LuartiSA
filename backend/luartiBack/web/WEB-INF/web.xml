@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/LuartiSA"/>
+<servlet>
+    <servlet-name>Main</servlet-name>
+    <servlet-class>com.seuprojeto.MeuServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>meuServlet</servlet-name>
+    <url-pattern>/meuServlet</url-pattern>
+</servlet-mapping>
