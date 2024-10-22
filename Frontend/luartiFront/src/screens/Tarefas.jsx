@@ -1,8 +1,8 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
-import TarefaIcone from "../components/TarefaIcone";
 import Search from "../components/Search";
 import AddTarefa from "../components/AddTarefa";
+import TarefaIcone from "../components/PopUpTarefa/TarefaIcone";
 
 export default function Tarefas() {
   return (
