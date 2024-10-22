@@ -1,24 +1,24 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
-import Table from "../components/Tabela";
-import AddDev from "../components/AddDev";
 import Search from "../components/Search";
+import Table from "../components/Tabela";
+import AddTipoTarefa from "../components/AddTipoTarefa";
 
-export default function CadastroDevs() {
-  const headers = ["ID", "NOME", "EMAIL", "SENHA", "ATIVO", "BLOQUEADO"];
+export default function CadastroTipoTarefa() {
+  const headers = ["ID", "Descrição"];
 
   return (
     <MainLayout>
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           width: "98%",
           height: "8%",
         }}
       >
-        <Search/>
-        <AddDev/>
+        <Search />
+        <AddTipoTarefa />
       </div>
       <div
         style={{
