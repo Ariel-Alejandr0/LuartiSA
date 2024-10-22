@@ -3,29 +3,19 @@ package model;
 import java.util.Date;
 
 public class Tarefa {
-
     private int idTarefa;
     private String nomeTarefa;
     private String descTarefa;
     private Date dataCriacao;
     private Date dataFim;
-    private Status status;
+    private Status status; // Aqui usamos o enum Status
     private int idTipoTarefa;
-
-    private enum Status {
-        Concluida,
-        Iniciada,
-        Pendente,
-        Em_Andamento
-    };
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+    
+    public enum Status {
+    CONCLUIDA, 
+    INICIADA, 
+    PENDENTE, 
+    EM_ANDAMENTO};
 
     public int getIdTarefa() {
         return idTarefa;
@@ -67,6 +57,14 @@ public class Tarefa {
         this.dataFim = dataFim;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public int getIdTipoTarefa() {
         return idTipoTarefa;
     }
@@ -74,5 +72,4 @@ public class Tarefa {
     public void setIdTipoTarefa(int idTipoTarefa) {
         this.idTipoTarefa = idTipoTarefa;
     }
-
 }
