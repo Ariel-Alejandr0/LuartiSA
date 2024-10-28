@@ -28,19 +28,19 @@ export default function Tarefas() {
         }}
       >
         <TarefaIcone
-          prazoFinal={"22/10/1978 23:59"}
+          prazoFinal={new Date().toISOString()}
           tituloTarefa={"Titulo da tarefapipipi popopo"}
           numDevs={5}
           tipoTarefaDesc={"FRONTEND"}
         />
         <TarefaIcone
-          prazoFinal={"22/10/1978 23:59"}
+          prazoFinal={new Date().toISOString()}
           tituloTarefa={"Dar cachorro pra água"}
           numDevs={5}
           tipoTarefaDesc={"FRONTEND"}
         />
         <TarefaIcone
-          prazoFinal={"22/10/1978 23:59"}
+          prazoFinal={new Date().toISOString()}
           tituloTarefa={"Jogar o lixeiro no lixo"}
           numDevs={5}
           tipoTarefaDesc={"FRONTEND"}
