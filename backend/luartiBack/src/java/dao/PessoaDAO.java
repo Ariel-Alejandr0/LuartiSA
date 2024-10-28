@@ -10,13 +10,9 @@ public class PessoaDAO {
 
     private Connection connection;
 
-    public PessoaDAO() {
-        try {
-            // Usa a classe Conexao para conectar ao banco de dados
-            this.connection = Conexao.conectar();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados", e);
-        }
+    // Construtor que recebe a conexão como parâmetro
+    public PessoaDAO(Connection connection) {
+        this.connection = connection; // Armazena a conexão fornecida
     }
 
     // Método para salvar uma nova pessoa
