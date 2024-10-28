@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function EditarTarefaButton() {
+export default function EditarTarefaButton({ cantEdit, setCantEdit }) {
+  const handleOnClick = () => {
+    setCantEdit(prev => !prev);
+  };
+
   return (
-    <button style={{ height: 50, backgroundColor: "#1d1d1d", color: "#fff" }}>
+    <button
+      onClick={handleOnClick}
+      style={{
+        height: 50,
+        backgroundColor: cantEdit ? "black" : "grey",
+        color: "#fff",
+      }}
+    >
       ✏️ Editar
     </button>
   );
