@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Pessoa;
+import utils.Conexao;
 
 public class PessoaDAO {
 
@@ -11,9 +12,9 @@ public class PessoaDAO {
 
     public PessoaDAO() {
         try {
-            // Estabelece a conexão com o banco de dados
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/seubanco", "usuario", "senha");
-        } catch (SQLException e) {
+            // Usa a classe Conexao para conectar ao banco de dados
+            this.connection = Conexao.conectar();
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException("Erro ao conectar ao banco de dados", e);
         }
     }
@@ -41,8 +42,7 @@ public class PessoaDAO {
         List<Pessoa> pessoas = new ArrayList<>();
         String sql = "SELECT * FROM pessoa";
 
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Pessoa pessoa = new Pessoa();
