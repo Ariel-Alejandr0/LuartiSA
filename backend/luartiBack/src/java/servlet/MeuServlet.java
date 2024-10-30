@@ -40,56 +40,55 @@ public class MeuServlet extends HttpServlet {
         }
     }
 
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String action = request.getParameter("action");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
 
-    if (action == null) {
-        response.getWriter().write("Ação não especificada.");
-        return; // Retorna se a ação for nula
-    }
-
-    try {
-        switch (action) {
-            case "listPessoa":
-                listPessoa(response);
-                break;
-            case "getPessoa":
-                getPessoa(request, response);
-                break;
-            case "listTarefa":
-                listTarefa(response);
-                break;
-            case "getTarefa":
-                // Verifique se o ID está presente
-                if (request.getParameter("id") == null) {
-                    response.getWriter().write("ID da tarefa não especificado.");
-                    return;
-                }
-                // getTarefa(request, response);
-                break;
-            case "listTipoTarefa":
-                listTipoTarefa(response);
-                break;
-            case "getTipoTarefa":
-                // Verifique se o ID está presente
-                if (request.getParameter("id") == null) {
-                    response.getWriter().write("ID do tipo de tarefa não especificado.");
-                    return;
-                }
-                getTipoTarefa(request, response);
-                break;
-            case "listPessoaHasTarefa":
-                listPessoaHasTarefa(response);
-                break;
-            default:
-                response.getWriter().write("Ação desconhecida.");
+        if (action == null) {
+            response.getWriter().write("Ação não especificada.");
+            return; // Retorna se a ação for nula
         }
-    } catch (SQLException e) {
-        throw new ServletException("Erro ao processar a solicitação GET", e);
-    }
-}
 
+        try {
+            switch (action) {
+                case "listPessoa":
+                    listPessoa(response);
+                    break;
+                case "getPessoa":
+                    getPessoa(request, response);
+                    break;
+                case "listTarefa":
+                    listTarefa(response);
+                    break;
+                case "getTarefa":
+                    // Verifique se o ID está presente
+                    if (request.getParameter("id") == null) {
+                        response.getWriter().write("ID da tarefa não especificado.");
+                        return;
+                    }
+                    // getTarefa(request, response);
+                    break;
+                case "listTipoTarefa":
+                    listTipoTarefa(response);
+                    break;
+                case "getTipoTarefa":
+                    // Verifique se o ID está presente
+                    if (request.getParameter("id") == null) {
+                        response.getWriter().write("ID do tipo de tarefa não especificado.");
+                        return;
+                    }
+                    getTipoTarefa(request, response);
+                    break;
+                case "listPessoaHasTarefa":
+                    listPessoaHasTarefa(response);
+                    break;
+                default:
+                    response.getWriter().write("Ação desconhecida.");
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Erro ao processar a solicitação GET", e);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,6 +96,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
         try {
             switch (action) {
+
+                case "login":
+                    autenticar(request, response);
+                    break;
                 case "addPessoa":
                     addPessoa(request, response);
                     break;
@@ -130,11 +133,29 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
                 case "deletePessoaHasTarefa":
                     deletePessoaHasTarefa(request, response);
                     break;
+
                 default:
                     response.getWriter().write("Ação desconhecida.");
             }
         } catch (SQLException e) {
             throw new ServletException("Erro ao processar a solicitação POST", e);
+        }
+    }
+
+    // Método para realizar o login no sistema
+    private void autenticar(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+
+        // Verifique se as credenciais são válidas
+        Pessoa pessoa = pessoaService.autenticar(email, senha);
+
+        if (pessoa != null) {
+            // Login bem-sucedido, redirecionar ou retornar uma mensagem de sucesso
+            response.getWriter().println("Login bem-sucedido. Bem-vindo, " + pessoa.getNomeCompleto() + "!");
+        } else {
+            // Login falhou, retornar uma mensagem de erro
+            response.getWriter().println("Email ou senha incorretos.");
         }
     }
 
@@ -176,13 +197,11 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
         response.getWriter().println(tarefas);
     }
 
-    
     private void getTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Tarefa tarefa = tarefaService.getTarefaById(id);
         response.getWriter().println(tarefa);
     }
-    
 
     private void addTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         Tarefa tarefa = new Tarefa();
