@@ -1,12 +1,12 @@
 import axios from "axios";
 
-export function doLogin(email, senha) {
+export function requestLogin(email, senha) {
   try {
     const request = axios.post(
-      "localhost:8070/luartiBack/LuartiSA?action=login",
+      "http://localhost:8070/luartiBack/LuartiSA?action=login", // adicionado http://
       {
-        email,
-        senha,
+        email: email,
+        senha: senha,
       }
     );
     return request;
