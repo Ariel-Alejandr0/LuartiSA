@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import Table from "../components/Tabela";
 import AddDev from "../components/AddDev";
 import Search from "../components/Search";
+import BloquearButton from "../components/devs/BloquearButton";
 
 export default function CadastroDevs() {
   const headers = ["ID", "NOME", "EMAIL", "SENHA", "ATIVO", "BLOQUEADO"];
@@ -19,6 +20,7 @@ export default function CadastroDevs() {
       >
         <Search/>
         <AddDev/>
+        <BloquearButton bloqueado={true}/>
       </div>
       <div
         style={{

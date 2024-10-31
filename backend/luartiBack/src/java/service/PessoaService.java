@@ -34,4 +34,8 @@ public class PessoaService {
     public void deletePessoa(int id) throws SQLException {
         pessoaDAO.delete(id);
     }
+    
+    public Pessoa autenticar(String email, String senha) throws SQLException{
+        return pessoaDAO.autenticar(email, senha);
+    }
 }

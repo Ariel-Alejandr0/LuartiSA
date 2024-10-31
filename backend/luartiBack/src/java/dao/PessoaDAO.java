@@ -115,4 +115,20 @@ public class PessoaDAO {
             throw new RuntimeException("Erro ao excluir pessoa", e);
         }
     }
+public Pessoa autenticar(String email, String senha) throws SQLException {
+    String sql = "SELECT * FROM pessoa WHERE email = ? AND senha = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setString(1, email);
+        stmt.setString(2, senha);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            Pessoa pessoa = new Pessoa();
+            pessoa.setIdPessoa(rs.getInt("id"));
+            pessoa.setNomeCompleto(rs.getString("nome"));
+            pessoa.setEmail(rs.getString("email"));
+            return pessoa; // Retorne a pessoa autenticada
+        }
+    }
+    return null; // Retorne null se a autenticação falhar
+}
 }

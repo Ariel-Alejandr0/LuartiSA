@@ -25,7 +25,19 @@ export default function TarefaIcone({
       ),
     });
   };
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
 
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    }).format(date);
+  }
   return (
     <div
       onClick={handleOnClick}
@@ -43,7 +55,7 @@ export default function TarefaIcone({
         borderRadius: 15,
       }}
     >
-      <span style={{ fontWeight: "bold" }}>📅 {prazoFinal}</span>
+      <span style={{ fontWeight: "bold" }}>📅 {formatDate(prazoFinal)}</span>
       <div
         style={{
           display: "flex",
