@@ -10,13 +10,9 @@ public class PessoaDAO {
 
     private Connection connection;
 
-    public PessoaDAO() {
-        try {
-            // Usa a classe Conexao para conectar ao banco de dados
-            this.connection = Conexao.conectar();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados", e);
-        }
+    // Construtor que recebe a conexão como parâmetro
+    public PessoaDAO(Connection connection) {
+        this.connection = connection; // Armazena a conexão fornecida
     }
 
     // Método para salvar uma nova pessoa
@@ -119,4 +115,20 @@ public class PessoaDAO {
             throw new RuntimeException("Erro ao excluir pessoa", e);
         }
     }
+public Pessoa autenticar(String email, String senha) throws SQLException {
+    String sql = "SELECT * FROM pessoa WHERE email = ? AND senha = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setString(1, email);
+        stmt.setString(2, senha);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            Pessoa pessoa = new Pessoa();
+            pessoa.setIdPessoa(rs.getInt("id"));
+            pessoa.setNomeCompleto(rs.getString("nome"));
+            pessoa.setEmail(rs.getString("email"));
+            return pessoa; // Retorne a pessoa autenticada
+        }
+    }
+    return null; // Retorne null se a autenticação falhar
+}
 }
