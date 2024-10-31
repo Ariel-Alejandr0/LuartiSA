@@ -45,7 +45,6 @@ public class PessoaDAO {
                 pessoa.setIdPessoa(rs.getInt("idPessoa"));
                 pessoa.setNomeCompleto(rs.getString("nomeCompleto"));
                 pessoa.setEmail(rs.getString("email"));
-                pessoa.setSenha(rs.getString("senha"));
                 pessoa.setStatus(Pessoa.Status.valueOf(rs.getString("status")));
                 pessoa.setPapel(Pessoa.Papel.valueOf(rs.getString("papel")));
                 pessoa.setIdSuperior(rs.getInt("idSuperior"));
