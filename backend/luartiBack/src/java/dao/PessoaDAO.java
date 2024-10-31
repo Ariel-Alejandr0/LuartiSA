@@ -123,9 +123,12 @@ public Pessoa autenticar(String email, String senha) throws SQLException {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             Pessoa pessoa = new Pessoa();
-            pessoa.setIdPessoa(rs.getInt("id"));
-            pessoa.setNomeCompleto(rs.getString("nome"));
+            pessoa.setIdPessoa(rs.getInt("idPessoa"));
+            pessoa.setNomeCompleto(rs.getString("nomeCompleto"));
             pessoa.setEmail(rs.getString("email"));
+            pessoa.setIdSuperior(rs.getInt("idSuperior"));
+            pessoa.setPapel(Pessoa.Papel.valueOf(rs.getString("papel")));
+            pessoa.setStatus(Pessoa.Status.valueOf(rs.getString("status")));
             return pessoa; // Retorne a pessoa autenticada
         }
     }

@@ -8,6 +8,8 @@ import service.PessoaService;
 import service.TarefaService;
 import service.TipoTarefaService;
 import service.PessoaHasTarefaService;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -66,7 +68,7 @@ public class MeuServlet extends HttpServlet {
                         response.getWriter().write("ID da tarefa não especificado.");
                         return;
                     }
-                    // getTarefa(request, response);
+                    getTarefa(request, response);
                     break;
                 case "listTipoTarefa":
                     listTipoTarefa(response);
@@ -142,20 +144,32 @@ public class MeuServlet extends HttpServlet {
         }
     }
 
-    // Método para realizar o login no sistema
     private void autenticar(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String email = request.getParameter("email");
-        String senha = request.getParameter("senha");
+        // Cria um objeto Gson para converter JSON para objeto Java
+        Gson gson = new Gson();
 
-        // Verifique se as credenciais são válidas
+        // Define o tipo de resposta como JSON
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Lê o corpo da requisição JSON
+        BufferedReader reader = request.getReader();
+        Pessoa p = gson.fromJson(reader, Pessoa.class);
+
+        // Extrai email e senha do objeto Pessoa
+        String email = p.getEmail();
+        String senha = p.getSenha();
+
+        // Verifica se as credenciais são válidas
         Pessoa pessoa = pessoaService.autenticar(email, senha);
 
         if (pessoa != null) {
-            // Login bem-sucedido, redirecionar ou retornar uma mensagem de sucesso
-            response.getWriter().println("Login bem-sucedido. Bem-vindo, " + pessoa.getNomeCompleto() + "!");
+            // Login bem-sucedido, converte o objeto Pessoa para JSON e envia na resposta
+            String jsonResponse = gson.toJson(pessoa);
+            response.getWriter().write(jsonResponse);
         } else {
-            // Login falhou, retornar uma mensagem de erro
-            response.getWriter().println("Email ou senha incorretos.");
+            // Login falhou, retorna uma mensagem de erro em JSON
+            response.getWriter().write("{\"error\": \"Email ou senha incorretos.\"}");
         }
     }
 
