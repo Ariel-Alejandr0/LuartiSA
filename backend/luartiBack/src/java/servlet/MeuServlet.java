@@ -264,6 +264,54 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         response.getWriter().println(gson.toJson(new ArrayList<Pessoa>()));
     }
     }
+    
+    // Métodos para PessoaHasTarefa
+    private void listPessoaHasTarefa(HttpServletResponse response) throws SQLException, IOException {
+        List<PessoaHasTarefa> pessoaHasTarefas = pessoaHasTarefaService.listarTodos();
+        if(pessoaHasTarefas.isEmpty()){
+            System.out.println("Nenhuma relação entre pessoas e tarefas encontrada");
+        }else{
+            System.out.println("Relações encontradas"+pessoaHasTarefas.size());
+            for(PessoaHasTarefa pessoaHasTarefa : pessoaHasTarefas){
+                System.out.println(pessoaHasTarefa);
+            }
+        }
+        
+        Gson gson = new Gson();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        if(!pessoaHasTarefas.isEmpty()){
+            String jsonResponse = gson.toJson(pessoaHasTarefas);
+            response.getWriter().println(jsonResponse);
+        }else{
+            response.getWriter().println(gson.toJson(new ArrayList<>()));
+        }
+    }
+    
+        // Métodos para TipoTarefa
+    private void listTipoTarefa(HttpServletResponse response) throws SQLException, IOException {
+        List<TipoTarefa> tipoTarefas = tipoTarefaService.listarTodos();
+        
+        if(tipoTarefas.isEmpty()){
+            System.out.println("Nenhum tipo de tarefa encontrado");
+        }else{
+            System.out.println("Tarefas encontradas"+tipoTarefas.size());
+            for(TipoTarefa tipoTarefa : tipoTarefas){
+                System.out.println(tipoTarefa);
+            }
+        }
+        
+        Gson gson = new Gson();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        if(!tipoTarefas.isEmpty()){
+            String jsonResponse = gson.toJson(tipoTarefas);
+            response.getWriter().println(jsonResponse);
+        }else{
+            response.getWriter().println(gson.toJson(gson.toJson(new ArrayList<>())));
+        }
+    }
 
 
     private void getTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -280,6 +328,18 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
     response.getWriter().println(json);
 }
 
+        private void getTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        TipoTarefa tipoTarefa = tipoTarefaService.obterTipoTarefaPorId(id);
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(tipoTarefa);
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().println(json);
+    }
+    
     private void addTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         Tarefa tarefa = new Tarefa();
         // Setar os atributos de Tarefa a partir dos parâmetros da requisição
@@ -300,17 +360,9 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         response.getWriter().println("Tarefa deletada com sucesso.");
     }
 
-    // Métodos para TipoTarefa
-    private void listTipoTarefa(HttpServletResponse response) throws SQLException, IOException {
-        List<TipoTarefa> tipoTarefas = tipoTarefaService.listarTodos();
-        response.getWriter().println(tipoTarefas);
-    }
 
-    private void getTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        TipoTarefa tipoTarefa = tipoTarefaService.obterTipoTarefaPorId(id);
-        response.getWriter().println(tipoTarefa);
-    }
+
+
 
     private void addTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         TipoTarefa tipoTarefa = new TipoTarefa();
@@ -332,11 +384,6 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         response.getWriter().println("Tipo de Tarefa deletado com sucesso.");
     }
 
-    // Métodos para PessoaHasTarefa
-    private void listPessoaHasTarefa(HttpServletResponse response) throws SQLException, IOException {
-        List<PessoaHasTarefa> pessoaHasTarefas = pessoaHasTarefaService.listarTodos();
-        response.getWriter().println(pessoaHasTarefas);
-    }
 
     private void addPessoaHasTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         PessoaHasTarefa pessoaHasTarefa = new PessoaHasTarefa();
