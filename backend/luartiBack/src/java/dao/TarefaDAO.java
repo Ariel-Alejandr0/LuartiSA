@@ -88,7 +88,7 @@ public class TarefaDAO {
     
       // Método para buscar uma tarefa pelo ID
     public Tarefa findById(int id) {
-        String sql = "SELECT * FROM tarefa WHERE id = ?";
+        String sql = "SELECT * FROM tarefa WHERE idTarefa = ?";
         Tarefa tarefa = null;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -97,9 +97,11 @@ public class TarefaDAO {
 
             if (rs.next()) {
                 tarefa = new Tarefa();
-                tarefa.setIdTarefa(rs.getInt("id"));
-                tarefa.setNomeTarefa(rs.getString("nome"));
-                tarefa.setDescTarefa(rs.getString("descricao"));
+                tarefa.setIdTarefa(rs.getInt("idTarefa"));
+                tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+                tarefa.setDescTarefa(rs.getString("descTarefa"));
+                tarefa.setDataCriacao(rs.getDate("dataCriacao"));
+                tarefa.setDataFim(rs.getDate("dataFim"));
                 tarefa.setStatus(Tarefa.Status.valueOf(rs.getString("status")));
             }
         } catch (SQLException e) {

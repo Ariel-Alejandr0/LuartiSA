@@ -15,7 +15,7 @@ public class TipoTarefaDAO {
 
     // Método para adicionar um novo TipoTarefa
     public void adicionar(TipoTarefa tipoTarefa) throws SQLException {
-        String sql = "INSERT INTO tipo_tarefa (descTipotarefa) VALUES (?)";
+        String sql = "INSERT INTO tipotarefa (descTipotarefa) VALUES (?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, tipoTarefa.getDescTipotarefa());
             pstmt.executeUpdate();
@@ -31,7 +31,7 @@ public class TipoTarefaDAO {
 
     // Método para obter um TipoTarefa pelo ID
     public TipoTarefa obterPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM tipo_tarefa WHERE idTipoTarefa = ?";
+        String sql = "SELECT * FROM tipotarefa WHERE idTipoTarefa = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -48,7 +48,7 @@ public class TipoTarefaDAO {
     // Método para listar todos os TipoTarefas
     public List<TipoTarefa> listarTodos() throws SQLException {
         List<TipoTarefa> lista = new ArrayList<>();
-        String sql = "SELECT * FROM tipo_tarefa";
+        String sql = "SELECT * FROM tipotarefa";
         try (PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
@@ -63,7 +63,7 @@ public class TipoTarefaDAO {
 
     // Método para atualizar um TipoTarefa
     public void atualizar(TipoTarefa tipoTarefa) throws SQLException {
-        String sql = "UPDATE tipo_tarefa SET descTipotarefa = ? WHERE idTipoTarefa = ?";
+        String sql = "UPDATE tipotarefa SET descTipotarefa = ? WHERE idTipoTarefa = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, tipoTarefa.getDescTipotarefa());
             pstmt.setInt(2, tipoTarefa.getIdTipoTarefa());
@@ -73,7 +73,7 @@ public class TipoTarefaDAO {
 
     // Método para deletar um TipoTarefa
     public void deletar(int id) throws SQLException {
-        String sql = "DELETE FROM tipo_tarefa WHERE idTipoTarefa = ?";
+        String sql = "DELETE FROM tipotarefa WHERE idTipoTarefa = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
