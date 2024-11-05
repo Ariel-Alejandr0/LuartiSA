@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/auth";
 
 export default function Login() {
+  const { doLogin } = useAuth();
   const [className, setClassName] = useState("");
-
+  const [loginData, setLoginData] = useState({});
   useEffect(() => {
     document.body.className = className;
   }, [className]);
@@ -15,6 +17,21 @@ export default function Login() {
   const handleOnClickSignUp = (e) => {
     e.preventDefault();
     setClassName("sign-up-js");
+  };
+
+  const handleOnChangeLogin = (e) => {
+    e.preventDefault();
+    const { id, value } = e.target;
+    setLoginData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleOnLogin = async (e) => {
+    e.preventDefault();
+    console.log(loginData);
+    await doLogin(loginData.email, loginData.senha);
   };
 
   return (
@@ -94,12 +111,22 @@ export default function Login() {
             <form className="form">
               <label className="label-input">
                 <i className="far fa-envelope icon-modify"></i>
-                <input type="email" placeholder="Email" />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  id="email"
+                  onChange={(e) => handleOnChangeLogin(e)}
+                />
               </label>
 
               <label className="label-input">
                 <i className="fas fa-lock icon-modify"></i>
-                <input type="password" placeholder="Senha" />
+                <input
+                  type="password"
+                  placeholder="Senha"
+                  id="senha"
+                  onChange={(e) => handleOnChangeLogin(e)}
+                />
               </label>
 
               <a className="password" href="#">
@@ -107,7 +134,7 @@ export default function Login() {
               </a>
               <button
                 className="btn btn-second"
-                onClick={(e) => handleOnClickSignIn(e)}
+                onClick={(e) => handleOnLogin(e)}
               >
                 sign in
               </button>

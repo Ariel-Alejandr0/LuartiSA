@@ -1,16 +1,17 @@
 import axios from "axios";
 
-export function requestLogin(email, senha) {
+export async function requestLogin(email, senha) {
   try {
-    const request = axios.post(
-      "http://localhost:8070/luartiBack/LuartiSA?action=login", // adicionado http://
+    const request = await axios.post(
+      "/luartiBack/LuartiSA?action=login", // adicionado http://
       {
         email: email,
         senha: senha,
       }
     );
-    return request;
+    return request.data;
   } catch (e) {
     console.log(e);
+    return false;
   }
 }
