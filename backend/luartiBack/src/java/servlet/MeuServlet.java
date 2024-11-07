@@ -112,7 +112,7 @@ public class MeuServlet extends HttpServlet {
                     updatePessoa(request, response);
                     break;
                 case "deletePessoa":
-                    deletePessoa(request, response);
+                    //deletePessoa(request, response);
                     break;
                 case "addTarefa":
                     addTarefa(request, response);
