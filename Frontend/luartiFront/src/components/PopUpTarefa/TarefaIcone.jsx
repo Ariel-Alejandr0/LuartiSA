@@ -1,15 +1,17 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import TarefaForm from "./TarefaForm";
+import { useAuth } from "../../contexts/auth";
 
 export default function TarefaIcone({
   prazoFinal,
   tituloTarefa,
   numDevs,
   tipoTarefaDesc,
+  descTarefa
 }) {
   const MySwal = withReactContent(Swal);
-
+  const { userData } = useAuth();
   const handleOnClick = async () => {
     MySwal.fire({
       title: " ",
@@ -21,6 +23,8 @@ export default function TarefaIcone({
           prazoFinal={prazoFinal}
           tipoTarefaDesc={tipoTarefaDesc}
           tituloTarefa={tipoTarefaDesc}
+          userData={userData}
+          descTarefa={descTarefa}
         />
       ),
     });

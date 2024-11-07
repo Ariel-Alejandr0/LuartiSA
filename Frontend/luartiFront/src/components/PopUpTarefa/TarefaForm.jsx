@@ -1,31 +1,33 @@
 import React, { useState } from "react";
-import ExcluirTarefaButton from './ExcluirTarefaButton'
-import EditarTarefaButton from './EditarTarefaButton'
-import MarcarComoConcluida from './MarcarComoConcluida'
+import ExcluirTarefaButton from "./ExcluirTarefaButton";
+import EditarTarefaButton from "./EditarTarefaButton";
+import MarcarComoConcluida from "./MarcarComoConcluida";
 
 export default function TarefaForm({
   tituloTarefa,
   tipoTarefaDesc,
   prazoFinal,
+  userData,
+  descTarefa,
 }) {
   function formatDate(dateStr) {
-  const date = new Date(dateStr);
+    const date = new Date(dateStr);
 
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-    timeZone: 'UTC'
-  }).format(date);
-}
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    }).format(date);
+  }
   const [cantEdit, setCantEdit] = useState(true);
   const [formData, setformData] = useState({
     tituloTarefa: tituloTarefa,
     prazoFinal: new Date(prazoFinal).toISOString().slice(0, 16), // Formato correto para datetime-local
-    descTarefa: "",
+    descTarefa: descTarefa,
     devs: [],
     tipoDaTarefa: {
       id: 0,
@@ -102,7 +104,7 @@ export default function TarefaForm({
             <input
               type="datetime-local"
               id="prazoFinal"
-              disabled={cantEdit}   
+              disabled={cantEdit}
               value={formData.prazoFinal}
               style={{
                 display: "flex",
@@ -175,14 +177,18 @@ export default function TarefaForm({
             marginTop: "2%",
           }}
         >
-          <label>Adicionar Desenvolvedores: </label>
-          <select
-            id="devs"
-            className="swal2-select"
-            style={{ width: "100%", margin: 0, marginTop: "1%" }}
-            disabled={cantEdit}
-            onChange={handleOnChange}
-          ></select>
+          {userData?.papel === "ADMIN" && (
+            <>
+              <label>Adicionar Desenvolvedores: </label>
+              <select
+                id="devs"
+                className="swal2-select"
+                style={{ width: "100%", margin: 0, marginTop: "1%" }}
+                disabled={cantEdit}
+                onChange={handleOnChange}
+              ></select>
+            </>
+          )}
           <div
             style={{
               display: "flex",
@@ -214,8 +220,15 @@ export default function TarefaForm({
             }}
           >
             <MarcarComoConcluida />
-            <EditarTarefaButton cantEdit={cantEdit} setCantEdit={setCantEdit} />
-            <ExcluirTarefaButton />
+            {userData?.papel === "ADMIN" && (
+              <>
+                <EditarTarefaButton
+                  cantEdit={cantEdit}
+                  setCantEdit={setCantEdit}
+                />
+                <ExcluirTarefaButton />
+              </>
+            )}
           </div>
         </div>
       </div>

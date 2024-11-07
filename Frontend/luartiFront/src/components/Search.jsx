@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Search({ setFilteredTarefas }) {
+export default function Search({ setFilteredTarefas, tarefas }) {
   const handleOnChange = (e) => {
-    setFilteredTarefas((prev) =>
-      prev.filter((i) => i.nomeTarefa.includes(e.target.value))
+    setFilteredTarefas(
+      tarefas.filter((i) => i.nomeTarefa.includes(e.target.value))
     );
   };
 

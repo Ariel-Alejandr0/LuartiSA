@@ -1,22 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function Table({ numeroMaximoDeLinhas, linhaDeCabecalho }) {
+export default function Table({
+  numeroMaximoDeLinhas,
+  linhaDeCabecalho,
+  devsList,
+}) {
   const numeroDeColunas = linhaDeCabecalho.length;
 
-  // Geração de linhas de conteúdo vazias como exemplo
-  const linhas = Array.from({ length: numeroMaximoDeLinhas }, (_, rowIndex) => (
-    <React.Fragment key={rowIndex}>
-      {Array.from({ length: numeroDeColunas }, (_, colIndex) => (
-        <div
-          key={colIndex}
-          style={{ border: "1px solid #ccc", padding: 10, textAlign: "center" }}
-        >
-          {/* Aqui você pode adicionar o conteúdo das células */}
-          Conteúdo {rowIndex + 1}-{colIndex + 1}
-        </div>
-      ))}
-    </React.Fragment>
-  ));
+  useEffect(() => {
+    console.log(devsList);
+  }, [devsList]);
 
   return (
     <div
@@ -29,10 +22,7 @@ export default function Table({ numeroMaximoDeLinhas, linhaDeCabecalho }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns:
-            "repeat(" +
-            numeroDeColunas +
-            ", 1fr)" /* Substitua o 3 pelo número dinâmico de colunas */,
+          gridTemplateColumns: `repeat(${numeroDeColunas}, 1fr)`,
         }}
       >
         {linhaDeCabecalho.map((header, index) => (
@@ -41,7 +31,7 @@ export default function Table({ numeroMaximoDeLinhas, linhaDeCabecalho }) {
             style={{
               fontWeight: "bold",
               backgroundColor: "#FF6F21",
-              color: '#fff',
+              color: "#fff",
               border: "1px solid #ccc",
               padding: 10,
               textAlign: "center",
@@ -56,14 +46,26 @@ export default function Table({ numeroMaximoDeLinhas, linhaDeCabecalho }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns:
-            "repeat(" +
-            numeroDeColunas +
-            ", 1fr)" /* Substitua o 3 pelo número dinâmico de colunas */,
+          gridTemplateColumns: `repeat(${numeroDeColunas}, 1fr)`,
         }}
       >
-        {linhas}
+        {devsList.slice(0, numeroMaximoDeLinhas).map((dev, rowIndex) => (
+          <React.Fragment key={dev.idPessoa}>
+            <div style={cellStyle}>{dev.idPessoa}</div>
+            <div style={cellStyle}>{dev.nomeCompleto}</div>
+            <div style={cellStyle}>{dev.email}</div>
+            <div style={cellStyle}>{dev.status}</div>
+            <div style={cellStyle}>{dev.papel}</div>
+            <div style={cellStyle}>{dev.idSuperior}</div>
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
 }
+
+const cellStyle = {
+  border: "1px solid #ccc",
+  padding: 10,
+  textAlign: "center",
+};

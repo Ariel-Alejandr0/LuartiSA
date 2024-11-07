@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Table from "../components/Tabela";
 import AddDev from "../components/AddDev";
 import Search from "../components/Search";
 import BloquearButton from "../components/devs/BloquearButton";
+import { requestGetUsers } from "../service/GETS/GetUsers";
+import { useAuth } from "../contexts/auth";
 
 export default function CadastroDevs() {
   const headers = ["ID", "NOME", "EMAIL", "SENHA", "ATIVO", "BLOQUEADO"];
+  const { userData } = useAuth();
+  const [devsList, setDevsList] = useState([]);
+  useEffect(() => {
+    async function getDevs() {
+      const request = await requestGetUsers();
+      if (request) {
+        setDevsList(request.filter((i) => i.idSuperior == userData.idPessoa));
+      }
+    }
+    getDevs()
+  }, []);
 
   return (
     <MainLayout>
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           width: "98%",
           height: "8%",
         }}
       >
-        <Search/>
-        <AddDev/>
-        <BloquearButton bloqueado={true}/>
+        <Search />
+        <AddDev />
+        <BloquearButton bloqueado={true} />
       </div>
       <div
         style={{
@@ -30,7 +43,7 @@ export default function CadastroDevs() {
           overflowY: "auto",
         }}
       >
-        <Table numeroMaximoDeLinhas={10} linhaDeCabecalho={headers} />
+        <Table numeroMaximoDeLinhas={10} linhaDeCabecalho={headers} devsList={devsList}/>
       </div>
     </MainLayout>
   );

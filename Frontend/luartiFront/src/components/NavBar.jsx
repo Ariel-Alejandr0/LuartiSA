@@ -1,7 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../contexts/auth";
 
 export default function NavBar() {
+  const { userData } = useAuth();
+
   return (
     <div
       style={{
@@ -23,13 +26,21 @@ export default function NavBar() {
           height: "50%",
           width: "40%",
         }}
-      > 
-        <NavLink to={"/tarefas"} style={{color: '#fff'}}>Tarefas</NavLink>
-        <NavLink to={"/cadastroDevs"} style={{color: '#fff'}}>Cadastro de Desenvolvedores</NavLink>
-
-        <NavLink to={"/cadastroTipoTarefas"} style={{color: '#fff'}}>
-          Cadastro de Tipo de Tarefas
+      >
+        <NavLink to={"/tarefas"} style={{ color: "#fff" }}>
+          Tarefas
         </NavLink>
+        {userData?.papel == "ADMIN" && (
+          <>
+            <NavLink to={"/cadastroDevs"} style={{ color: "#fff" }}>
+              Cadastro de Desenvolvedores
+            </NavLink>
+
+            <NavLink to={"/cadastroTipoTarefas"} style={{ color: "#fff" }}>
+              Cadastro de Tipo de Tarefas
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   );

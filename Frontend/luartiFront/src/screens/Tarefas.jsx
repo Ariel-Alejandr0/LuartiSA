@@ -4,22 +4,23 @@ import Search from "../components/Search";
 import AddTarefa from "../components/AddTarefa";
 import TarefaIcone from "../components/PopUpTarefa/TarefaIcone";
 import { requestGetTarefas } from "../service/GETS/GetTarefas";
+import { useAuth } from "../contexts/auth";
 
 export default function Tarefas() {
   const [filteredTarefas, setFilteredTarefas] = useState([]);
   const [tarefas, setTarefas] = useState([]);
+  const { userData } = useAuth();
+
   useEffect(() => {
     async function getTarefas() {
       const req = await requestGetTarefas();
       if (req) {
         setTarefas(req);
+        setFilteredTarefas(req);
       }
     }
     getTarefas();
   }, []);
-  useEffect(() => {
-    setFilteredTarefas(tarefas);
-  }, [tarefas]);
   return (
     <MainLayout>
       <div
@@ -30,13 +31,15 @@ export default function Tarefas() {
           height: "8%",
         }}
       >
-        <Search setFilteredTarefas={setFilteredTarefas} />
-        <AddTarefa />
+        <Search setFilteredTarefas={setFilteredTarefas} tarefas={tarefas} />
+        {userData?.papel == "ADMIN" && <AddTarefa />}
       </div>
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "flex-start",
           flex: 1,
           width: "100%",
           overflowY: "auto",
@@ -49,6 +52,7 @@ export default function Tarefas() {
             numDevs={5}
             tituloTarefa={i.nomeTarefa}
             tipoTarefaDesc={i.idTipoTarefa}
+            descTarefa={i.descTarefa}
           />
         ))}
       </div>
