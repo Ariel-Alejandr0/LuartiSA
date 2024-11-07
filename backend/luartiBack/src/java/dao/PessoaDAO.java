@@ -104,7 +104,7 @@ public class PessoaDAO {
     }
 
     // Método para excluir uma pessoa
-    public void delete(int id) {
+    public void deletePessoa(int id) {
         String sql = "DELETE FROM pessoa WHERE idPessoa = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

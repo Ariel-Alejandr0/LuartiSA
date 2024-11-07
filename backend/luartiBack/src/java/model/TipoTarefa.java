@@ -4,7 +4,9 @@ package model;
 public class TipoTarefa {
 
     private int idTipoTarefa;
-    private String descTipotarefa;
+    private String descTipoTarefa;
+    
+    
     public int getIdTipoTarefa() {
         return idTipoTarefa;
     }
@@ -12,12 +14,12 @@ public class TipoTarefa {
         this.idTipoTarefa = idTipoTarefa;
     }
 
-    public String getDescTipotarefa() {
-        return descTipotarefa;
+    public String getDescTipoTarefa() {
+        return descTipoTarefa;
     }
 
-    public void setDescTipotarefa(String descTipotarefa) {
-        this.descTipotarefa = descTipotarefa;
+    public void setDescTipoTarefa(String descTipoTarefa) {
+        this.descTipoTarefa = descTipoTarefa;
     }
 
 }

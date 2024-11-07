@@ -31,8 +31,13 @@ public class PessoaService {
         pessoaDAO.update(pessoa);
     }
 
-    public void deletePessoa(int id) throws SQLException {
-        pessoaDAO.delete(id);
+    public Pessoa deletePessoa(int id) throws SQLException {
+    Pessoa pessoa = pessoaDAO.findById(id); 
+    
+    if (pessoa != null) {
+        pessoaDAO.deletePessoa(id); 
+    }
+    return pessoa;
     }
     
     public Pessoa autenticar(String email, String senha) throws SQLException{

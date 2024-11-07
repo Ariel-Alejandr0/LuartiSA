@@ -40,21 +40,54 @@ public class PessoaHasTarefaDAO {
     }
 
     // Método para deletar uma relação entre Pessoa e Tarefa
-    public void deletar(int idPessoa, int idTarefa) throws SQLException {
-        String sql = "DELETE FROM pessoa_has_tarefa WHERE idPessoa = ? AND idTarefa = ?";
+    public void deletarPessoa(int idPessoa) throws SQLException {
+        String sql = "DELETE FROM pessoa_has_tarefa WHERE idPessoa = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, idPessoa);
-            pstmt.setInt(2, idTarefa);
             pstmt.executeUpdate();
         }
     }
+    
+    public void deletarTarefa(int idTarefa) throws SQLException {
+        String sql = "DELETE FROM pessoa_has_tarefa WHERE idTarefa = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, idTarefa);
+            pstmt.executeUpdate();
+        }
+    }
+        // Método para verificar se uma relação existe
+    public boolean existe(int idTarefa, int idPessoa) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM pessoa_has_tarefa WHERE idTarefa = ? AND idPessoa = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, idTarefa);
+            pstmt.setInt(2,idPessoa);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+    
 
     // Método para verificar se uma relação existe
-    public boolean existe(int idPessoa, int idTarefa) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM pessoa_has_tarefa WHERE idPessoa = ? AND idTarefa = ?";
+    public boolean existePessoa(int idPessoa) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM pessoa_has_tarefa WHERE idPessoa = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, idPessoa);
-            pstmt.setInt(2, idTarefa);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+    
+    // Método para verificar se uma relação existe
+    public boolean existeTarefa(int idTarefa) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM pessoa_has_tarefa WHERE idTarefa = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, idTarefa);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;

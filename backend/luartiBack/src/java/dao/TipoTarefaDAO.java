@@ -15,9 +15,9 @@ public class TipoTarefaDAO {
 
     // Método para adicionar um novo TipoTarefa
     public void adicionar(TipoTarefa tipoTarefa) throws SQLException {
-        String sql = "INSERT INTO tipotarefa (descTipotarefa) VALUES (?)";
+        String sql = "INSERT INTO tipotarefa (descTipoTarefa) VALUES (?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, tipoTarefa.getDescTipotarefa());
+            pstmt.setString(1, tipoTarefa.getDescTipoTarefa());
             pstmt.executeUpdate();
             
             // Recupera o ID gerado
@@ -38,7 +38,7 @@ public class TipoTarefaDAO {
             if (rs.next()) {
                 TipoTarefa tipoTarefa = new TipoTarefa();
                 tipoTarefa.setIdTipoTarefa(rs.getInt("idTipoTarefa"));
-                tipoTarefa.setDescTipotarefa(rs.getString("descTipotarefa"));
+                tipoTarefa.setDescTipoTarefa(rs.getString("descTipotarefa"));
                 return tipoTarefa;
             }
         }
@@ -54,7 +54,7 @@ public class TipoTarefaDAO {
             while (rs.next()) {
                 TipoTarefa tipoTarefa = new TipoTarefa();
                 tipoTarefa.setIdTipoTarefa(rs.getInt("idTipoTarefa"));
-                tipoTarefa.setDescTipotarefa(rs.getString("descTipotarefa"));
+                tipoTarefa.setDescTipoTarefa(rs.getString("descTipotarefa"));
                 lista.add(tipoTarefa);
             }
         }
@@ -65,7 +65,7 @@ public class TipoTarefaDAO {
     public void atualizar(TipoTarefa tipoTarefa) throws SQLException {
         String sql = "UPDATE tipotarefa SET descTipotarefa = ? WHERE idTipoTarefa = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, tipoTarefa.getDescTipotarefa());
+            pstmt.setString(1, tipoTarefa.getDescTipoTarefa());
             pstmt.setInt(2, tipoTarefa.getIdTipoTarefa());
             pstmt.executeUpdate();
         }

@@ -31,10 +31,18 @@ public class TarefaService {
     }
 
     // Excluir uma tarefa
-    public void deleteTarefa(int id) throws SQLException {
-        tarefaDAO.deleteTarefa(id); // Atualizado para usar o método correto do DAO
+    public Tarefa deleteTarefa(int id) throws SQLException {
+    // Primeiro, buscamos a tarefa a ser deletada
+    Tarefa tarefa = tarefaDAO.findById(id); // Método para buscar a tarefa pelo ID
+    
+    if (tarefa != null) {
+        tarefaDAO.deleteTarefa(id); // Em seguida, excluímos a tarefa
     }
     
+    // Retornamos a tarefa (ou null, se ela não foi encontrada)
+    return tarefa;
+}
+
     // Encontrar uma tarefa a partit do id
      public Tarefa getTarefaById(int id) {
         return tarefaDAO.findById(id);
