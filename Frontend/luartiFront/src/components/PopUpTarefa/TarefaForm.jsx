@@ -7,12 +7,13 @@ import PersonIcon from "./PersonIcon";
 export default function TarefaForm({
   idTarefa,
   tituloTarefa,
-  tipoTarefaDesc,
   prazoFinal,
   userData,
   descTarefa,
   users,
   usersHasTarefas,
+  idTipoTarefa,
+  tiposDeTarefa,
 }) {
   function formatDate(dateStr) {
     const date = new Date(dateStr);
@@ -42,10 +43,7 @@ export default function TarefaForm({
     prazoFinal: new Date(prazoFinal).toISOString().slice(0, 16), // Formato correto para datetime-local
     descTarefa: descTarefa,
     devs: [],
-    tipoDaTarefa: {
-      id: 0,
-      descricao: tipoTarefaDesc || "Front-end",
-    },
+    tipoDaTarefa: tiposDeTarefa.find((i) => i.idTipoTarefa == idTipoTarefa),
   });
 
   const handleOnChange = (e) => {
@@ -153,12 +151,15 @@ export default function TarefaForm({
                 border: "2px solid #ff6f21",
               }}
               disabled={cantEdit}
-              value={formData.tipoDaTarefa.descricao}
+              value={formData.tipoDaTarefa}
               onChange={handleOnChange}
+              id="tipoDaTarefa"
             >
-              <option value={formData.tipoDaTarefa.descricao}>
-                {formData.tipoDaTarefa.descricao}
-              </option>
+              {tiposDeTarefa?.map((i) => (
+                <option key={i.idTipoTarefa} value={i.idTipoTarefa}>
+                  {i.descTipoTarefa}
+                </option>
+              ))}
             </select>
           </div>
         </div>
