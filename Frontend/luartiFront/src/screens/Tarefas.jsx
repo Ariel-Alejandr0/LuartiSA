@@ -5,18 +5,26 @@ import AddTarefa from "../components/AddTarefa";
 import TarefaIcone from "../components/PopUpTarefa/TarefaIcone";
 import { requestGetTarefas } from "../service/GETS/GetTarefas";
 import { useAuth } from "../contexts/auth";
+import { requestGetUsers } from "../service/GETS/GetUsers";
+import { requestGetPessoasGHasTarefas } from "../service/GETS/GetPessoaHasTarefa";
 
 export default function Tarefas() {
+  const { userData } = useAuth();
   const [filteredTarefas, setFilteredTarefas] = useState([]);
   const [tarefas, setTarefas] = useState([]);
-  const { userData } = useAuth();
+  const [users, setUsers] = useState([]);
+  const [usersHasTarefas, setUsersHasTarefas] = useState([]);
 
   useEffect(() => {
     async function getTarefas() {
-      const req = await requestGetTarefas();
-      if (req) {
-        setTarefas(req);
-        setFilteredTarefas(req);
+      const reqTarefas = await requestGetTarefas();
+      const reqUsers = await requestGetUsers();
+      const reqUsersHasTarefas = await requestGetPessoasGHasTarefas();
+      if (reqTarefas && reqUsers && reqUsersHasTarefas) {
+        setUsers(reqUsers);
+        setUsersHasTarefas(reqUsersHasTarefas);
+        setTarefas(reqTarefas);
+        setFilteredTarefas(reqTarefas);
       }
     }
     getTarefas();
@@ -53,6 +61,9 @@ export default function Tarefas() {
             tituloTarefa={i.nomeTarefa}
             tipoTarefaDesc={i.idTipoTarefa}
             descTarefa={i.descTarefa}
+            users={users}
+            usersHasTarefas={usersHasTarefas}
+            idTarefa={i.idTarefa}
           />
         ))}
       </div>

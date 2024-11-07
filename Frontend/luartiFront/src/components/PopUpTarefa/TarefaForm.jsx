@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExcluirTarefaButton from "./ExcluirTarefaButton";
 import EditarTarefaButton from "./EditarTarefaButton";
 import MarcarComoConcluida from "./MarcarComoConcluida";
+import PersonIcon from "./PersonIcon";
 
 export default function TarefaForm({
+  idTarefa,
   tituloTarefa,
   tipoTarefaDesc,
   prazoFinal,
   userData,
   descTarefa,
+  users,
+  usersHasTarefas,
 }) {
   function formatDate(dateStr) {
     const date = new Date(dateStr);
@@ -23,6 +27,15 @@ export default function TarefaForm({
       timeZone: "UTC",
     }).format(date);
   }
+  useEffect(() => {
+    console.log(
+      users?.filter((usr) =>
+        usersHasTarefas.some(
+          (UHT) => UHT.idPessoa == usr.idPessoa && UHT.idTarefa == idTarefa
+        )
+      )
+    );
+  }, []);
   const [cantEdit, setCantEdit] = useState(true);
   const [formData, setformData] = useState({
     tituloTarefa: tituloTarefa,
@@ -198,18 +211,16 @@ export default function TarefaForm({
               marginTop: "1%",
             }}
           >
-            <span
-              style={{
-                padding: 5,
-                margin: 2,
-                backgroundColor: "#eee",
-                borderRadius: 15,
-                border: "1px solid black",
-              }}
-            >
-              Ariel Alejandro Marcellino Silva
-              <strong>{" x "}</strong>
-            </span>
+            {users
+              ?.filter((usr) =>
+                usersHasTarefas.some(
+                  (UHT) =>
+                    UHT.idPessoa == usr.idPessoa && UHT.idTarefa == idTarefa
+                )
+              )
+              .map((i) => (
+                <PersonIcon personObj={i} />
+              ))}
           </div>
           <div
             style={{

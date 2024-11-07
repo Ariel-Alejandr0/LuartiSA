@@ -4,11 +4,14 @@ import TarefaForm from "./TarefaForm";
 import { useAuth } from "../../contexts/auth";
 
 export default function TarefaIcone({
+  idTarefa,
   prazoFinal,
   tituloTarefa,
   numDevs,
   tipoTarefaDesc,
-  descTarefa
+  descTarefa,
+  users,
+  usersHasTarefas,
 }) {
   const MySwal = withReactContent(Swal);
   const { userData } = useAuth();
@@ -20,11 +23,14 @@ export default function TarefaIcone({
       showConfirmButton: false,
       html: (
         <TarefaForm
+          idTarefa={idTarefa}
           prazoFinal={prazoFinal}
           tipoTarefaDesc={tipoTarefaDesc}
           tituloTarefa={tipoTarefaDesc}
           userData={userData}
           descTarefa={descTarefa}
+          users={users}
+          usersHasTarefas={usersHasTarefas}
         />
       ),
     });
