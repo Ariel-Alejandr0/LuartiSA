@@ -103,6 +103,7 @@ public class TarefaDAO {
                 tarefa.setDataCriacao(rs.getDate("dataCriacao"));
                 tarefa.setDataFim(rs.getDate("dataFim"));
                 tarefa.setStatus(Tarefa.Status.valueOf(rs.getString("status")));
+                tarefa.setIdTipoTarefa(rs.getInt("idTipoTarefa"));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar tarefa pelo ID", e);
@@ -119,4 +120,36 @@ public class TarefaDAO {
             stmt.executeUpdate();
         }
     }
+    
+    public void deleteTarefaIdTipoTarefa(int id) throws SQLException{
+        String sql = "DELETE FROM tarefa WHERE idTipoTarefa = ?"; // Corrigido para o nome da coluna correta
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+    
+    public Tarefa findTarefaByIdTipoTarefa(int id) throws SQLException{
+        String sql = "SELECT * FROM tarefa WHERE idTipoTarefa = ?";
+        Tarefa tarefa = null;
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                tarefa = new Tarefa();
+                tarefa.setIdTarefa(rs.getInt("idTarefa"));
+                tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+                tarefa.setDescTarefa(rs.getString("descTarefa"));
+                tarefa.setDataCriacao(rs.getDate("dataCriacao"));
+                tarefa.setDataFim(rs.getDate("dataFim"));
+                tarefa.setStatus(Tarefa.Status.valueOf(rs.getString("status")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar tarefa pelo ID", e);
+        }
+
+        return tarefa;
+    } 
+    
 }
