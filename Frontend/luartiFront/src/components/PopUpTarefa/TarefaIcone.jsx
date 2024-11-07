@@ -5,10 +5,11 @@ import { useAuth } from "../../contexts/auth";
 
 export default function TarefaIcone({
   idTarefa,
+  idTipoTarefa,
+  tiposDeTarefa,
   prazoFinal,
   tituloTarefa,
   numDevs,
-  tipoTarefaDesc,
   descTarefa,
   users,
   usersHasTarefas,
@@ -25,12 +26,13 @@ export default function TarefaIcone({
         <TarefaForm
           idTarefa={idTarefa}
           prazoFinal={prazoFinal}
-          tipoTarefaDesc={tipoTarefaDesc}
-          tituloTarefa={tipoTarefaDesc}
+          tituloTarefa={tituloTarefa}
           userData={userData}
           descTarefa={descTarefa}
           users={users}
           usersHasTarefas={usersHasTarefas}
+          idTipoTarefa={idTipoTarefa}
+          tiposDeTarefa={tiposDeTarefa}
         />
       ),
     });
@@ -91,7 +93,12 @@ export default function TarefaIcone({
         </div>
       </div>
       <div>
-        <strong>{tipoTarefaDesc}</strong>
+        <strong>
+          {
+            tiposDeTarefa?.find((i) => i.idTipoTarefa == idTipoTarefa)
+              .descTipoTarefa
+          }
+        </strong>
       </div>
     </div>
   );

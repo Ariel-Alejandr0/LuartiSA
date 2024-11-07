@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Search from "../components/Search";
 import Table from "../components/Tabela";
 import AddTipoTarefa from "../components/AddTipoTarefa";
+import { requestGetAllTiposTarefas } from "../service/GETS/GetAllTipoTarefa";
+import TableTipoTarefa from "../components/TabelaTipoTarefa";
 
 export default function CadastroTipoTarefa() {
   const headers = ["ID", "Descrição"];
+  const [tiposDeTarefa, setTiposDeTarefa] = useState([])
+
+  useEffect(() => {
+    async function getTypesTask() {
+      const request = await requestGetAllTiposTarefas();
+      if (request) {
+        setTiposDeTarefa(request);
+      }
+    }
+    getTypesTask()
+  }, []);
 
   return (
     <MainLayout>
@@ -28,7 +41,7 @@ export default function CadastroTipoTarefa() {
           overflowY: "auto",
         }}
       >
-        <Table numeroMaximoDeLinhas={10} linhaDeCabecalho={headers} />
+        <TableTipoTarefa numeroMaximoDeLinhas={10} linhaDeCabecalho={headers} typesList={tiposDeTarefa}/>
       </div>
     </MainLayout>
   );
