@@ -273,26 +273,58 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
     }
     
     
-    private void updatePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        BufferedReader reader = request.getReader();
-        Gson gson = new Gson();
-        
-        Pessoa pessoa = gson.fromJson(reader, Pessoa.class);
-        
-        
-        // Setar os atributos de Pessoa a partir dos parâmetros da requisição
+private void updatePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    // Lê o corpo da requisição
+    BufferedReader reader = request.getReader();
+    Gson gson = new Gson();
+    
+    // Converte o corpo da requisição para o objeto Pessoa
+    Pessoa pessoa = gson.fromJson(reader, Pessoa.class);
+
+    // Chama o serviço para atualizar a pessoa
+    try {
         pessoaService.updatePessoa(pessoa);
-        
+
+        // Responde com uma mensagem de sucesso
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"message\": \"Pessoa adicionada com sucesso.\"}");
+        response.getWriter().write("{\"message\": \"Pessoa atualizada com sucesso.\"}");
         
+    } catch (SQLException e) {
+        // Responde com erro caso haja falha na atualização
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        response.getWriter().write("{\"message\": \"Erro ao atualizar pessoa.\"}");
+    } catch (Exception e) {
+        // Responde com erro genérico
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        response.getWriter().write("{\"message\": \"Erro inesperado.\"}");
+    }
+}
+
+
+    private void updateTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    BufferedReader reader = request.getReader();
+    Gson gson = new Gson();
         
-        response.getWriter().println("Pessoa atualizada com sucesso.");
+        Tarefa tarefa = gson.fromJson(reader, Tarefa.class);
+        try{
+            tarefaService.updateTarefa(tarefa);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"message\": \"Tarefa atualizada com sucesso.\"}");
+        
+        } catch (SQLException e) {
+        // Responde com erro caso haja falha na atualização
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        response.getWriter().write("{\"message\": \"Erro ao atualizar tarefa.\"}");
+    } catch (Exception e) {
+        // Responde com erro genérico
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        response.getWriter().write("{\"message\": \"Erro inesperado.\"}");
+    }
     }
 
-
-    private void addPessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+private void addPessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         // Lê o JSON do corpo da requisição
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
@@ -452,20 +484,8 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println(json);
     }
-    
-
-
-    private void updateTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        Tarefa tarefa = new Tarefa();
-        // Setar os atributos de Tarefa a partir dos parâmetros da requisição
-        tarefaService.updateTarefa(tarefa);
-        response.getWriter().println("Tarefa atualizada com sucesso.");
-    }
-
-
-
-
-
+        
+        
     private void updateTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         TipoTarefa tipoTarefa = new TipoTarefa();
         // Setar os atributos de TipoTarefa a partir dos parâmetros da requisição
