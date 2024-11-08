@@ -42,6 +42,15 @@ public class TarefaService {
     // Retornamos a tarefa (ou null, se ela não foi encontrada)
     return tarefa;
 }
+    
+    public Tarefa deleteTarefaIdTipoTarefa(int id) throws SQLException {
+        Tarefa tarefa = tarefaDAO.findTarefaByIdTipoTarefa(id);
+        
+        if(tarefa !=null){
+            tarefaDAO.deleteTarefaIdTipoTarefa(id);
+        }
+        return tarefa;
+    }
 
     // Encontrar uma tarefa a partit do id
      public Tarefa getTarefaById(int id) {

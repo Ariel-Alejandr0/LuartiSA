@@ -111,9 +111,6 @@ public class MeuServlet extends HttpServlet {
                 case "updatePessoa":
                     updatePessoa(request, response);
                     break;
-                case "deletePessoa":
-                    //deletePessoa(request, response);
-                    break;
                 case "addTarefa":
                     addTarefa(request, response);
                     break;
@@ -247,33 +244,53 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
 
     response.getWriter().write(json); // Escreve o JSON no response
 }
-
-/*    
-        private void deletePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    
+    
+    private void deleteTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
+
         Gson gson = new Gson();
         String json;
-        
-        try{
-            pessoaHasTarefaService.deletarPessoaHasTarefaPessoa(id);
+
+        try {
+           tarefaService.deleteTarefaIdTipoTarefa(id);
             
-            Pessoa pessoa = pessoaService.deletePessoa(id);
+            tipoTarefaService.deletarTipoTarefa(id);
             
             Map<String, String> jsonResponse = new HashMap<>();
-            jsonResponse.put("message", "Pessoa Deletada com Sucesso.");
+            jsonResponse.put("message", "Tipo de Tarefa excluído com sucesso.");
             json = gson.toJson(jsonResponse);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             Map<String, String> jsonResponse = new HashMap<>();
-        jsonResponse.put("message", "Erro ao deletar a pessoa: " + e.getMessage());
-        json = gson.toJson(jsonResponse);
+            jsonResponse.put("message", "Erro ao excluir Tipo de Tarefa: " + e.getMessage());
+            json = gson.toJson(jsonResponse);
         }
-         response.getWriter().write(json); // Escreve o JSON no response
+
+        response.getWriter().write(json); // Escreve a resposta JSON
+    
+    }
+    
+    
+    private void updatePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        BufferedReader reader = request.getReader();
+        Gson gson = new Gson();
+        
+        Pessoa pessoa = gson.fromJson(reader, Pessoa.class);
+        
+        
+        // Setar os atributos de Pessoa a partir dos parâmetros da requisição
+        pessoaService.updatePessoa(pessoa);
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"message\": \"Pessoa adicionada com sucesso.\"}");
+        
+        
+        response.getWriter().println("Pessoa atualizada com sucesso.");
     }
 
-*/
 
     private void addPessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         // Lê o JSON do corpo da requisição
@@ -331,12 +348,6 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         response.getWriter().write("{\"message\": \"Pessoa adicionada a uma tarefa com sucesso\"}");
     }
 
-    private void updatePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        Pessoa pessoa = new Pessoa();
-        // Setar os atributos de Pessoa a partir dos parâmetros da requisição
-        pessoaService.updatePessoa(pessoa);
-        response.getWriter().println("Pessoa atualizada com sucesso.");
-    }
 
 
     // Métodos para Tarefa
@@ -460,12 +471,6 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         // Setar os atributos de TipoTarefa a partir dos parâmetros da requisição
         tipoTarefaService.atualizarTipoTarefa(tipoTarefa);
         response.getWriter().println("Tipo de Tarefa atualizado com sucesso.");
-    }
-
-    private void deleteTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        tipoTarefaService.deletarTipoTarefa(id);
-        response.getWriter().println("Tipo de Tarefa deletado com sucesso.");
     }
 
     private void deletePessoaHasTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
