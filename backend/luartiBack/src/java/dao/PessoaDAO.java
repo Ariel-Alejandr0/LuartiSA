@@ -17,6 +17,14 @@ public class PessoaDAO {
 
     // Método para salvar uma nova pessoa
     public void save(Pessoa pessoa) {
+        Integer gambiarraIdSeperior;
+        if (pessoa.getIdSuperior() == 0) {
+        // Se idSuperior for null, atribui um valor padrão (ex: 0 ou null, dependendo da lógica)
+        gambiarraIdSeperior = null; // Ou pode lançar uma exceção, se necessário
+    }else{
+            gambiarraIdSeperior = pessoa.getIdSuperior();
+        }
+        
         String sql = "INSERT INTO pessoa (nomeCompleto, email, senha, status, papel, idSuperior) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -25,7 +33,12 @@ public class PessoaDAO {
             stmt.setString(3, pessoa.getSenha());
             stmt.setString(4, pessoa.getStatus().name());
             stmt.setString(5, pessoa.getPapel().name());
-            stmt.setInt(6, pessoa.getIdSuperior());
+            if (gambiarraIdSeperior != null) {
+            stmt.setInt(6, gambiarraIdSeperior);  // Se não for null, usa o valor de gambiarraIdSuperior
+        } else {
+            stmt.setNull(6, java.sql.Types.INTEGER);  // Se for null, envia null para o banco
+        }
+
 
             stmt.executeUpdate();
         } catch (SQLException e) {
