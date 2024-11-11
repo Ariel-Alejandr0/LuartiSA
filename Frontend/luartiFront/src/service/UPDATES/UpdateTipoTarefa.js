@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export async function requestCreateTipoTarefa(idTipoTarefa, descTipoTarefa) {
+export async function requestUpdateTipoTarefa(idTipoTarefa, descTipoTarefa) {
   try {
     const request = await axios.post(
-      "/luartiBack/LuartiSA?action=addTipoTarefa",
+      "/luartiBack/LuartiSA?action=updateTipoTarefa",
       {
         idTipoTarefa,
         descTipoTarefa,
