@@ -44,7 +44,7 @@ export default function Tarefas() {
         }}
       >
         <Search setFilteredTarefas={setFilteredTarefas} tarefas={tarefas} />
-        {userData?.papel == "ADMIN" && <AddTarefa />}
+        {userData?.papel == "ADMIN" && <AddTarefa tiposDeTarefa={tiposTarefa}/>}
       </div>
       <div
         style={{

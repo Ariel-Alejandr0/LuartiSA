@@ -1,13 +1,16 @@
 import React, { useRef } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { requestCreateTarefa } from "../service/POSTS/CreateTarefa";
+import { formatDate } from "../functions/formatDate";
+import { requestCreatePessoaHasTarefa } from "../service/POSTS/CreatePessoaHasTarefa";
 
-export default function AddTipoTarefa() {
+export default function AddTipoTarefa({ tiposDeTarefa }) {
   const MySwal = withReactContent(Swal);
   const createUserDataRef = useRef({});
 
   const handleOnClick = async () => {
-    const { value: objForm } = await MySwal.fire({
+    await MySwal.fire({
       title: "Cadastro De Tarefa",
       width: "70vw",
       showCloseButton: true,
@@ -41,6 +44,13 @@ export default function AddTipoTarefa() {
                 className="swal2-input"
                 style={{ flex: 1, margin: 0 }}
               />
+              <label>Prazo de Entrega: </label>
+              <input
+                id="dataFim"
+                className="swal2-input"
+                type="date"
+                style={{ flex: 1, margin: 0 }}
+              />
             </div>
             <div
               style={{
@@ -68,10 +78,22 @@ export default function AddTipoTarefa() {
             >
               <label>Tipo da Tarefa: </label>
               <select
+                style={{
+                  width: "100%",
+                  margin: 0,
+                  height: 40,
+                  borderRadius: 15,
+                  fontSize: "120%",
+                  border: "2px solid #ff6f21",
+                }}
                 id="tipoTarefa"
-                className="swal2-select"
-                style={{ flex: 1, margin: 0 }}
-              ></select>
+              >
+                {tiposDeTarefa?.map((i) => (
+                  <option key={i.idTipoTarefa} value={i.idTipoTarefa}>
+                    {i.descTipoTarefa}
+                  </option>
+                ))}
+              </select>
             </div>
             <div
               style={{
@@ -114,19 +136,32 @@ export default function AddTipoTarefa() {
           </div>
         </div>
       ),
-      preConfirm: () => ({
-        tituloTarefa: document.querySelector("#tituloTarefa").value,
-        descTarefa: document.querySelector("#descTarefa").value,
-        tipoTarefa: document.querySelector("#tipoTarefa").value,
-        devs: document.querySelector("#devs").value,
-      }),
-    });
-    createUserDataRef.current = objForm;
+      preConfirm: async () => {
+        const objForm = {
+          nomeTarefa: document.querySelector("#tituloTarefa").value,
+          descTarefa: document.querySelector("#descTarefa").value,
+          tipoTarefa: document.querySelector("#tipoTarefa").value,
+          dataFim: document.querySelector("#dataFim").value,
+          devs: document.querySelector("#devs").value,
+        };
 
-    MySwal.fire({
-      title: "Sucesso!",
-      icon: "success",
-      text: "Desenvolvedor Cadastrado com sucesso.",
+        const req = await requestCreateTarefa(
+          objForm.nomeTarefa,
+          objForm.descTarefa,
+          formatDate(new Date()),
+          formatDate(objForm.dataFim),
+          "PENDENTE",
+          objForm.tipoTarefa
+        ); //esperando bingull retornar o id da Tarefa para adicionar desenvolvedores à tarefa
+        //const req2 = await requestCreatePessoaHasTarefa()
+        if (req) {
+          MySwal.fire({
+            title: "Sucesso!",
+            icon: "success",
+            text: "Tarefa Cadastrada com sucesso.",
+          });
+        }
+      },
     });
   };
 
