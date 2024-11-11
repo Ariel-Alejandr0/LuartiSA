@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function requestCreateUser(idTarefa) {
+export async function requestDeleteTarefa(idTarefa) {
   try {
     const request = await axios.post(
       "/luartiBack/LuartiSA?action=/luartiBack/LuartiSA?action=deleteTarefa&id=" +

@@ -10,13 +10,15 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const doLogin = async (email, senha) => {
     const request = await requestLogin(email, senha);
-    if (request) {
+    if (!request.error) {
       localStorage.setItem("email", email);
       localStorage.setItem("senha", senha);
       setLoggedIn(true);
       setUserData(request);
       console.log(request);
       navigate('/tarefas')
+    } else {
+      alert(request.error)
     }
   };
 
