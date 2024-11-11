@@ -113,7 +113,7 @@ export default function TarefaForm({
           >
             <strong style={{ color: "#ff6f21" }}>Data de Entrega: </strong>
             <input
-              type="datetime-local"
+              type="date"
               id="prazoFinal"
               disabled={cantEdit}
               value={formData.prazoFinal}
