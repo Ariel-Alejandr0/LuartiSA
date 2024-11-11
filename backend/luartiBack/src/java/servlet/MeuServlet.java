@@ -402,7 +402,7 @@ private void addPessoa(HttpServletRequest request, HttpServletResponse response)
         
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"message\": \"Tarefa Adicionada com sucesso\"}");
+        response.getWriter().write("{\"message\": \"Tarefa adicionada com sucesso.\", \"idTarefa\": " + tarefa.getIdTarefa() + "}");
     }
 
         
