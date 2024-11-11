@@ -273,6 +273,39 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
     }
     
     
+    private void deletePessoaHasTarefa(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int idPessoa = Integer.parseInt(request.getParameter("idPessoa"));
+        int idTarefa = Integer.parseInt(request.getParameter("idTarefa"));
+        
+    BufferedReader reader = request.getReader();
+    Gson gson = new Gson();
+    
+        response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+
+    try {
+        pessoaHasTarefaService.deletarPessoaHasTarefa(idPessoa, idTarefa);
+         response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+
+        response.getWriter().write("{\"message\": \"Associação entre Pessoa e Tarefa deletada com sucesso.\"}");
+    } catch (SQLException e) {
+        // Tratamento de erro no caso de falha SQL
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        response.getWriter().write("{\"error\": \"Erro ao deletar a associação entre Pessoa e Tarefa.\"}");
+    } catch (NumberFormatException e) {
+        // Tratamento para erro de formato dos parâmetros
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.getWriter().write("{\"error\": \"Parâmetros inválidos para idPessoa ou idTarefa.\"}");
+    } catch (Exception e) {
+        // Tratamento de outros erros inesperados
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        response.getWriter().write("{\"error\": \"Erro inesperado ao tentar deletar a associação.\"}");
+    }
+}
+
+    
+    
 private void updatePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     // Lê o corpo da requisição
     BufferedReader reader = request.getReader();
@@ -322,6 +355,24 @@ private void updatePessoa(HttpServletRequest request, HttpServletResponse respon
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
         response.getWriter().write("{\"message\": \"Erro inesperado.\"}");
     }
+    }
+    
+       
+    private void updateTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        BufferedReader reader = request.getReader();
+        Gson gson = new Gson();
+        TipoTarefa tipoTarefa = gson.fromJson(reader, TipoTarefa.class);
+        try{
+            tipoTarefaService.atualizarTipoTarefa(tipoTarefa);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().println("{\"message\":\"Tipo de Tarefa atualizado com sucesso.\"}");
+        
+        } catch (SQLException e){
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        response.getWriter().write("{\"message\": \"Erro ao atualizar tipo de tarefa.\"}");
+        }
+        
     }
 
 private void addPessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -485,20 +536,7 @@ private void addPessoa(HttpServletRequest request, HttpServletResponse response)
         response.getWriter().println(json);
     }
         
-        
-    private void updateTipoTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        TipoTarefa tipoTarefa = new TipoTarefa();
-        // Setar os atributos de TipoTarefa a partir dos parâmetros da requisição
-        tipoTarefaService.atualizarTipoTarefa(tipoTarefa);
-        response.getWriter().println("Tipo de Tarefa atualizado com sucesso.");
-    }
-
-    private void deletePessoaHasTarefa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int idPessoa = Integer.parseInt(request.getParameter("idPessoa"));
-        int idTarefa = Integer.parseInt(request.getParameter("idTarefa"));
-        pessoaHasTarefaService.deletarPessoaHasTarefa(idPessoa, idTarefa);
-        response.getWriter().println("Associação entre Pessoa e Tarefa deletada com sucesso.");
-    }
+     
 
     @Override
     public void destroy() {

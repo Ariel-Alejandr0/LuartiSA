@@ -8,7 +8,7 @@ public class Pessoa {
     private String senha;
     private Status status;  // Usando o enum Status
     private Papel papel;    // Usando o enum Papel
-    private int idSuperior;
+    private Integer idSuperior;
 
     // Enum para Status
     public enum Status {
@@ -78,7 +78,7 @@ public class Pessoa {
         return idSuperior;
     }
 
-    public void setIdSuperior(int idSuperior) {
+    public void setIdSuperior(Integer idSuperior) {
         this.idSuperior = idSuperior;
     }
 }
