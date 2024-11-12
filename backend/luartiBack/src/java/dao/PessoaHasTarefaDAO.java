@@ -38,6 +38,30 @@ public class PessoaHasTarefaDAO {
         }
         return lista;
     }
+    
+            // Método para verificar se uma relação existe
+    public boolean existe(int idTarefa, int idPessoa) throws SQLException {
+        String sql = "SELECT COUNT(*)    FROM pessoa_has_tarefa WHERE idTarefa = ? AND idPessoa = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1,idPessoa);
+            pstmt.setInt(2, idTarefa);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+    
+    
+    public void deletePessoaHasTarefa(int idPessoa, int idTarefa) throws SQLException{
+        String sql = "DELETE FROM pessoa_has_tarefa where idPessoa = ? AND idTarefa = ?";
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, idPessoa);
+            stmt.setInt(2, idTarefa);
+            stmt.executeUpdate();
+        }
+    }
 
     // Método para deletar uma relação entre Pessoa e Tarefa
     public void deletarPessoa(int idPessoa) throws SQLException {
@@ -55,20 +79,7 @@ public class PessoaHasTarefaDAO {
             pstmt.executeUpdate();
         }
     }
-        // Método para verificar se uma relação existe
-    public boolean existe(int idTarefa, int idPessoa) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM pessoa_has_tarefa WHERE idTarefa = ? AND idPessoa = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, idTarefa);
-            pstmt.setInt(2,idPessoa);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        }
-        return false;
-    }
-    
+
 
     // Método para verificar se uma relação existe
     public boolean existePessoa(int idPessoa) throws SQLException {

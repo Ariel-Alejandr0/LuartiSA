@@ -27,16 +27,15 @@ public class PessoaHasTarefaService {
         return pessoaHasTarefaDAO.listarTodos();
     }
 
-    public void deletarPessoaHasTarefa(int idPessoa, int idTarefa) throws SQLException {
-        if (pessoaHasTarefaDAO.existe(idPessoa, idTarefa)) {
-            pessoaHasTarefaDAO.deletarPessoa(idPessoa);
-            pessoaHasTarefaDAO.deletarTarefa(idTarefa);
-        } else {
-            throw new SQLException("A relação entre a pessoa e a tarefa não existe.");
-        }
+ public void deletarPessoaHasTarefa(int idPessoa, int idTarefa) throws SQLException {
+    if (pessoaHasTarefaDAO.existe(idPessoa, idTarefa)) {
+        pessoaHasTarefaDAO.deletePessoaHasTarefa(idPessoa, idTarefa);
+    } else {
+        throw new SQLException("A relação entre a pessoa e a tarefa não existe.");
     }
-    
-    
+}
+
+        
     public void deletarPessoaHasTarefaTarefa(int idTarefa) throws SQLException {
         if (pessoaHasTarefaDAO.existeTarefa( idTarefa)) {
             pessoaHasTarefaDAO.deletarTarefa(idTarefa);

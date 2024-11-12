@@ -271,41 +271,50 @@ private void getPessoa(HttpServletRequest request, HttpServletResponse response)
         response.getWriter().write(json); // Escreve a resposta JSON
     
     }
-    
-    
+
     private void deletePessoaHasTarefa(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int idPessoa = Integer.parseInt(request.getParameter("idPessoa"));
-        int idTarefa = Integer.parseInt(request.getParameter("idTarefa"));
-        
-    BufferedReader reader = request.getReader();
-    Gson gson = new Gson();
-    
-        response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-
     try {
-        pessoaHasTarefaService.deletarPessoaHasTarefa(idPessoa, idTarefa);
-         response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
+        // Lê o corpo da requisição contendo o JSON com idPessoa e idTarefa
+        BufferedReader reader = request.getReader();
+        Gson gson = new Gson();
 
-        response.getWriter().write("{\"message\": \"Associação entre Pessoa e Tarefa deletada com sucesso.\"}");
+        // Converte o JSON para um objeto com idPessoa e idTarefa
+        PessoaHasTarefa pessoaHasTarefa = gson.fromJson(reader, PessoaHasTarefa.class);
+
+        // Adiciona log para verificar se a leitura foi bem-sucedida
+        System.out.println("PessoaHasTarefa recebido: " + pessoaHasTarefa);
+
+        // Verifica se o objeto pessoaHasTarefa é válido
+        if (pessoaHasTarefa == null || pessoaHasTarefa.getIdPessoa() == 0 || pessoaHasTarefa.getIdTarefa() == 0) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+            response.getWriter().write("{\"error\": \"Parâmetros idPessoa ou idTarefa ausentes ou inválidos.\"}");
+            return;
+        }
+
+        // Chama o serviço para deletar a associação entre pessoa e tarefa
+        pessoaHasTarefaService.deletarPessoaHasTarefa(pessoaHasTarefa.getIdPessoa(), pessoaHasTarefa.getIdTarefa());
+
+        // Responde com sucesso
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"message\": \"Associação entre pessoa e tarefa deletada com sucesso.\"}");
+
     } catch (SQLException e) {
-        // Tratamento de erro no caso de falha SQL
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        response.getWriter().write("{\"error\": \"Erro ao deletar a associação entre Pessoa e Tarefa.\"}");
-    } catch (NumberFormatException e) {
-        // Tratamento para erro de formato dos parâmetros
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().write("{\"error\": \"Parâmetros inválidos para idPessoa ou idTarefa.\"}");
+        // Se ocorrer erro ao deletar
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        e.printStackTrace();  // Loga o erro para diagnóstico
+        response.getWriter().write("{\"message\": \"Erro ao deletar associação.\"}");
     } catch (Exception e) {
-        // Tratamento de outros erros inesperados
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        response.getWriter().write("{\"error\": \"Erro inesperado ao tentar deletar a associação.\"}");
+        // Erro inesperado
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+        e.printStackTrace();  // Loga o erro para diagnóstico
+        response.getWriter().write("{\"message\": \"Erro inesperado.\"}");
     }
 }
 
-    
-    
+
+
+
 private void updatePessoa(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     // Lê o corpo da requisição
     BufferedReader reader = request.getReader();
