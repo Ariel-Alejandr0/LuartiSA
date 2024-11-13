@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Search from "../components/Search";
-import AddTarefa from "../components/AddTarefa";
+import AddTarefa from "../components/AddTask/AddTarefa";
 import TarefaIcone from "../components/PopUpTarefa/TarefaIcone";
 import { requestGetTarefas } from "../service/GETS/GetTarefas";
 import { useAuth } from "../contexts/auth";
@@ -44,7 +44,7 @@ export default function Tarefas() {
         }}
       >
         <Search setFilteredTarefas={setFilteredTarefas} tarefas={tarefas} />
-        {userData?.papel == "ADMIN" && <AddTarefa tiposDeTarefa={tiposTarefa}/>}
+        {userData?.papel == "ADMIN" && <AddTarefa tiposDeTarefa={tiposTarefa} users={users}/>}
       </div>
       <div
         style={{

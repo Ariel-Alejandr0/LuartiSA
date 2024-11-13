@@ -4,6 +4,7 @@ import EditarTarefaButton from "./EditarTarefaButton";
 import MarcarComoConcluida from "./MarcarComoConcluida";
 import PersonIcon from "./PersonIcon";
 import { formatDate } from "../../functions/formatDate";
+import AddDevsToTask from "../AddDevsToTask";
 
 export default function TarefaForm({
   idTarefa,
@@ -30,6 +31,7 @@ export default function TarefaForm({
     );
   }, []);
   const [cantEdit, setCantEdit] = useState(true);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [formData, setformData] = useState({
     idTarefa: idTarefa,
     tituloTarefa: tituloTarefa,
@@ -186,16 +188,9 @@ export default function TarefaForm({
           }}
         >
           {userData?.papel === "ADMIN" && (
-            <>
-              <label>Adicionar Desenvolvedores: </label>
-              <select
-                id="devs"
-                className="swal2-select"
-                style={{ width: "100%", margin: 0, marginTop: "1%" }}
-                disabled={cantEdit}
-                onChange={handleOnChange}
-              ></select>
-            </>
+            <div style={{ width: '100%'}}>
+              <AddDevsToTask users={users} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
+            </div>
           )}
           <div
             style={{
@@ -225,7 +220,7 @@ export default function TarefaForm({
               width: "100%",
             }}
           >
-            <MarcarComoConcluida />
+            <MarcarComoConcluida taskData={formData} />
             {userData?.papel === "ADMIN" && (
               <>
                 <EditarTarefaButton
