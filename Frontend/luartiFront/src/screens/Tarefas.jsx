@@ -61,6 +61,7 @@ export default function Tarefas() {
           <TarefaIcone
             key={i.idTarefa}
             prazoFinal={i.dataFim}
+            dataCriacao={i.dataCriacao}
             numDevs={5}
             tituloTarefa={i.nomeTarefa}
             tiposDeTarefa={tiposTarefa}

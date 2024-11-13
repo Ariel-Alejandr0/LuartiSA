@@ -3,11 +3,13 @@ import ExcluirTarefaButton from "./ExcluirTarefaButton";
 import EditarTarefaButton from "./EditarTarefaButton";
 import MarcarComoConcluida from "./MarcarComoConcluida";
 import PersonIcon from "./PersonIcon";
+import { formatDate } from "../../functions/formatDate";
 
 export default function TarefaForm({
   idTarefa,
   tituloTarefa,
   prazoFinal,
+  dataCriacao,
   userData,
   descTarefa,
   users,
@@ -15,19 +17,9 @@ export default function TarefaForm({
   idTipoTarefa,
   tiposDeTarefa,
 }) {
-  function formatDate(dateStr) {
-    const date = new Date(dateStr);
-
-    return new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-      timeZone: "UTC",
-    }).format(date);
-  }
+  const formatarData = (dateStr) => {
+    return dateStr.split("T")[0];
+  };
   useEffect(() => {
     console.log(
       users?.filter((usr) =>
@@ -39,8 +31,10 @@ export default function TarefaForm({
   }, []);
   const [cantEdit, setCantEdit] = useState(true);
   const [formData, setformData] = useState({
+    idTarefa: idTarefa,
     tituloTarefa: tituloTarefa,
-    prazoFinal: new Date(prazoFinal).toISOString().slice(0, 16), // Formato correto para datetime-local
+    prazoFinal: new Date(prazoFinal).toISOString().slice(0, 16).split("T")[0], // Formato correto para datetime-local
+    dataCriacao: formatDate(dataCriacao),
     descTarefa: descTarefa,
     devs: [],
     tipoDaTarefa: tiposDeTarefa.find((i) => i.idTipoTarefa == idTipoTarefa),
@@ -50,7 +44,7 @@ export default function TarefaForm({
     const { id, value } = e.target;
     setformData((prev) => ({
       ...prev,
-      [id]: value, // Atualizando o campo correto
+      [id]: id === "prazoFinal" ? formatarData(value) : value, // Atualizando o campo correto
     }));
   };
   return (
@@ -116,7 +110,7 @@ export default function TarefaForm({
               type="date"
               id="prazoFinal"
               disabled={cantEdit}
-              value={formData.prazoFinal}
+              value={formatarData(formData.prazoFinal)}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -237,6 +231,7 @@ export default function TarefaForm({
                 <EditarTarefaButton
                   cantEdit={cantEdit}
                   setCantEdit={setCantEdit}
+                  taskData={formData}
                 />
                 <ExcluirTarefaButton />
               </>

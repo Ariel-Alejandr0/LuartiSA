@@ -8,6 +8,7 @@ export default function TarefaIcone({
   idTipoTarefa,
   tiposDeTarefa,
   prazoFinal,
+  dataCriacao,
   tituloTarefa,
   numDevs,
   descTarefa,
@@ -16,6 +17,7 @@ export default function TarefaIcone({
 }) {
   const MySwal = withReactContent(Swal);
   const { userData } = useAuth();
+  console.log(prazoFinal);
   const handleOnClick = async () => {
     MySwal.fire({
       title: " ",
@@ -24,6 +26,7 @@ export default function TarefaIcone({
       showConfirmButton: false,
       html: (
         <TarefaForm
+          key={idTarefa}
           idTarefa={idTarefa}
           prazoFinal={prazoFinal}
           tituloTarefa={tituloTarefa}
@@ -33,6 +36,7 @@ export default function TarefaIcone({
           usersHasTarefas={usersHasTarefas}
           idTipoTarefa={idTipoTarefa}
           tiposDeTarefa={tiposDeTarefa}
+          dataCriacao={dataCriacao}
         />
       ),
     });
