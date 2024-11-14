@@ -61,6 +61,7 @@ export default function Tarefas() {
       >
         {filteredTarefas.map((i) => (
           <TarefaIcone
+            status={i.status}
             key={i.idTarefa}
             prazoFinal={i.dataFim}
             dataCriacao={i.dataCriacao}

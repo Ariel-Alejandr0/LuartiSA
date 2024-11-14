@@ -14,6 +14,7 @@ export default function TarefaIcone({
   descTarefa,
   users,
   usersHasTarefas,
+  status,
 }) {
   const MySwal = withReactContent(Swal);
   const { userData } = useAuth();
@@ -37,6 +38,7 @@ export default function TarefaIcone({
           idTipoTarefa={idTipoTarefa}
           tiposDeTarefa={tiposDeTarefa}
           dataCriacao={dataCriacao}
+          status={status}
         />
       ),
     });
@@ -66,12 +68,15 @@ export default function TarefaIcone({
         height: 225,
         margin: "0 1%",
         backgroundColor: "#fdf8f4",
-        border: "3px solid #ff6f21",
-        color: "#ff6f21",
+        border: "3px solid",
+        borderBlockColor: status === "CONCLUIDA" ? "blue" : "#ff6f21",
+        color: status === "CONCLUIDA" ? "blue" : "#ff6f21",
         borderRadius: 15,
       }}
     >
-      <span style={{ fontWeight: "bold" }}>📅 {formatDate(prazoFinal)}</span>
+      <span style={{ fontWeight: "bold" }}>
+        📅 {status === "CONCLUIDA" ? status : formatDate(prazoFinal)}
+      </span>
       <div
         style={{
           display: "flex",

@@ -18,6 +18,7 @@ export default function TarefaForm({
   usersHasTarefas,
   idTipoTarefa,
   tiposDeTarefa,
+  status,
 }) {
   const formatarData = (dateStr) => {
     return dateStr.split("T")[0];
@@ -228,7 +229,9 @@ export default function TarefaForm({
               width: "100%",
             }}
           >
-            <MarcarComoConcluida taskData={formData} />
+            {status !== "CONCLUIDA" && (
+              <MarcarComoConcluida taskData={formData} />
+            )}
             {userData?.papel === "ADMIN" && (
               <>
                 <EditarTarefaButton
