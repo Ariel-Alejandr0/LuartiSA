@@ -188,8 +188,12 @@ export default function TarefaForm({
           }}
         >
           {userData?.papel === "ADMIN" && (
-            <div style={{ width: '100%'}}>
-              <AddDevsToTask users={users} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
+            <div style={{ width: "100%" }}>
+              <AddDevsToTask
+                users={users}
+                selectedUsers={selectedUsers}
+                setSelectedUsers={setSelectedUsers}
+              />
             </div>
           )}
           <div
@@ -228,7 +232,7 @@ export default function TarefaForm({
                   setCantEdit={setCantEdit}
                   taskData={formData}
                 />
-                <ExcluirTarefaButton />
+                <ExcluirTarefaButton idTarefa={idTarefa} />
               </>
             )}
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Dados dos usuários
 
@@ -51,7 +51,7 @@ export default function AddDevsToTask({
   setSelectedUsers,
 }) {
   // Estado para gerenciar os checkboxes
-
+  const [nonSelectedUsers, setNonSelectedUsers] = useState(users);
   // Função para lidar com o evento de seleção de checkbox
   const handleCheckboxChange = (user, isChecked) => {
     setSelectedUsers((prevState) => {
@@ -69,7 +69,11 @@ export default function AddDevsToTask({
       prevState.filter((u) => u.idPessoa !== user.idPessoa)
     );
   };
-
+  useEffect(() => {
+    setNonSelectedUsers(
+      users.filter((i) => !selectedUsers.find((u) => u.idPessoa == i.idPessoa))
+    );
+  }, [selectedUsers]);
   return (
     <div style={{ position: "relative" }}>
       {/* Botão para abrir o popup */}
@@ -96,36 +100,17 @@ export default function AddDevsToTask({
             &times;
           </span>
           <div style={{ width: "100%" }}>
-            {users.map((user) => (
+            {nonSelectedUsers.map((user) => (
               <label key={user.idPessoa} style={checkboxLabelStyle}>
                 <input
                   type="checkbox"
                   checked={selectedUsers.includes(user.idPessoa)}
-                  onChange={(e) =>
-                    handleCheckboxChange(user, e.target.checked)
-                  }
+                  onChange={(e) => handleCheckboxChange(user, e.target.checked)}
                 />
                 {user.nomeCompleto}
               </label>
             ))}
           </div>
-
-          {/* <div style={balloonsContainerStyle}>
-            {selectedUsers.map((userId) => {
-              const user = users.find((u) => u.idPessoa === userId);
-              return (
-                <div key={user.idPessoa} style={balloonStyle}>
-                  {user.nomeCompleto}
-                  <span
-                    style={closeBalloonStyle}
-                    onClick={() => handleRemoveBalloon(user.idPessoa)}
-                  >
-                    X
-                  </span>
-                </div>
-              );
-            })}
-          </div> */}
         </div>
       </div>
     </div>

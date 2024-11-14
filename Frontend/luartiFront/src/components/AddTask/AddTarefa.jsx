@@ -1,12 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { requestCreateTarefa } from "../../service/POSTS/CreateTarefa";
 import { formatDate } from "../../functions/formatDate";
 import AddTaskContent from "./AddTaskContent";
+import { requestCreatePessoaHasTarefa } from "../../service/POSTS/CreatePessoaHasTarefa";
 
 export default function AddTipoTarefa({ tiposDeTarefa, users }) {
   const MySwal = withReactContent(Swal);
+  const selectedUsersRef = useRef([]);
+  useEffect(() => {
+    console.log(selectedUsersRef.current);
+  }, [selectedUsersRef.current]);
   console.log(JSON.stringify(users));
 
   const handleOnClick = async () => {
@@ -15,14 +20,19 @@ export default function AddTipoTarefa({ tiposDeTarefa, users }) {
       width: "70vw",
       showCloseButton: true,
       confirmButtonText: "Cadastrar",
-      html: <AddTaskContent tiposDeTarefa={tiposDeTarefa} users={users} />,
+      html: (
+        <AddTaskContent
+          tiposDeTarefa={tiposDeTarefa}
+          users={users}
+          selectedUsersRef={selectedUsersRef}
+        />
+      ),
       preConfirm: async () => {
         const objForm = {
           nomeTarefa: document.querySelector("#tituloTarefa").value,
           descTarefa: document.querySelector("#descTarefa").value,
           tipoTarefa: document.querySelector("#tipoTarefa").value,
           dataFim: document.querySelector("#dataFim").value,
-          devs: document.querySelector("#devs").value,
         };
 
         const req = await requestCreateTarefa(
@@ -33,13 +43,31 @@ export default function AddTipoTarefa({ tiposDeTarefa, users }) {
           "PENDENTE",
           objForm.tipoTarefa
         ); //esperando bingull retornar o id da Tarefa para adicionar desenvolvedores à tarefa
-        //const req2 = await requestCreatePessoaHasTarefa()
         if (req) {
-          MySwal.fire({
-            title: "Sucesso!",
-            icon: "success",
-            text: "Tarefa Cadastrada com sucesso.",
-          });
+          try {
+            selectedUsersRef.current.forEach(async (user) => {
+              await requestCreatePessoaHasTarefa(req.idTarefa, user.idPessoa);
+            });
+
+            MySwal.fire({
+              title: "Sucesso!",
+              icon: "success",
+              text: "Tarefa Cadastrada com sucesso.",
+              preConfirm: () => {
+                location.href = location.href;
+              },
+            });
+          } catch (e) {
+            console.log(e);
+            MySwal.fire({
+              title: "Erro!",
+              icon: "error",
+              text: "ocorreu um erro durante a adição da tarefa.",
+              preConfirm: () => {
+                location.href = location.href;
+              },
+            });
+          }
         }
       },
     });

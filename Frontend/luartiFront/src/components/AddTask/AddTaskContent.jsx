@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import AddDevsToTask from "../AddDevsToTask";
+import UserBaloon from "./UserBaloon";
 
-export default function AddTaskContent({ tiposDeTarefa, users }) {
+export default function AddTaskContent({
+  tiposDeTarefa,
+  users,
+  selectedUsersRef,
+}) {
   const [selectedUsers, setSelectedUsers] = useState([]);
-  useEffect(() => {console.log(selectedUsers)}, [selectedUsers])
+  useEffect(() => {
+    selectedUsersRef.current = selectedUsers;
+  }, [selectedUsers]);
   return (
     <div
       style={{
@@ -110,18 +117,11 @@ export default function AddTaskContent({ tiposDeTarefa, users }) {
             }}
           >
             {selectedUsers.map((u) => (
-              <span
-                style={{
-                  padding: 5,
-                  margin: 2,
-                  backgroundColor: "#eee",
-                  borderRadius: 15,
-                  border: "1px solid black",
-                }}
-              >
-                {u.nomeCompleto}
-                <strong>{" x "}</strong>
-              </span>
+              <UserBaloon
+                key={u.idPessoa}
+                user={u}
+                setSelectedUsers={setSelectedUsers}
+              />
             ))}
           </div>
         </div>

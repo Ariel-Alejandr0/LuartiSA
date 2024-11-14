@@ -3,7 +3,7 @@ import axios from "axios";
 export async function requestDeleteTarefa(idTarefa) {
   try {
     const request = await axios.post(
-      "/luartiBack/LuartiSA?action=/luartiBack/LuartiSA?action=deleteTarefa&id=" +
+      "/luartiBack/LuartiSA?action=deleteTarefa&id=" +
         idTarefa
     );
     return request.data;
