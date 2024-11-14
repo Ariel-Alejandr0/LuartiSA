@@ -5,6 +5,7 @@ import MarcarComoConcluida from "./MarcarComoConcluida";
 import PersonIcon from "./PersonIcon";
 import { formatDate } from "../../functions/formatDate";
 import AddDevsToTask from "../AddDevsToTask";
+import UserBaloon from "../AddTask/UserBaloon";
 
 export default function TarefaForm({
   idTarefa,
@@ -31,7 +32,13 @@ export default function TarefaForm({
     );
   }, []);
   const [cantEdit, setCantEdit] = useState(true);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState(
+    users?.filter((usr) =>
+      usersHasTarefas.some(
+        (UHT) => UHT.idPessoa == usr.idPessoa && UHT.idTarefa == idTarefa
+      )
+    )
+  );
   const [formData, setformData] = useState({
     idTarefa: idTarefa,
     tituloTarefa: tituloTarefa,
@@ -187,7 +194,7 @@ export default function TarefaForm({
             marginTop: "2%",
           }}
         >
-          {userData?.papel === "ADMIN" && (
+          {userData?.papel === "ADMIN" && !cantEdit && (
             <div style={{ width: "100%" }}>
               <AddDevsToTask
                 users={users}
@@ -205,16 +212,13 @@ export default function TarefaForm({
               marginTop: "1%",
             }}
           >
-            {users
-              ?.filter((usr) =>
-                usersHasTarefas.some(
-                  (UHT) =>
-                    UHT.idPessoa == usr.idPessoa && UHT.idTarefa == idTarefa
-                )
-              )
-              .map((i) => (
-                <PersonIcon personObj={i} />
-              ))}
+            {selectedUsers.map((u) => (
+              <UserBaloon
+                setSelectedUsers={setSelectedUsers}
+                user={u}
+                cantEdit={cantEdit}
+              />
+            ))}
           </div>
           <div
             style={{
@@ -231,6 +235,13 @@ export default function TarefaForm({
                   cantEdit={cantEdit}
                   setCantEdit={setCantEdit}
                   taskData={formData}
+                  usersAtual={users?.filter((usr) =>
+                    usersHasTarefas.some(
+                      (UHT) =>
+                        UHT.idPessoa == usr.idPessoa && UHT.idTarefa == idTarefa
+                    )
+                  )}
+                  selectedUsers={selectedUsers}
                 />
                 <ExcluirTarefaButton idTarefa={idTarefa} />
               </>

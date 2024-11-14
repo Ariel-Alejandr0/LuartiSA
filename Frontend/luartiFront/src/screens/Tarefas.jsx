@@ -44,7 +44,9 @@ export default function Tarefas() {
         }}
       >
         <Search setFilteredTarefas={setFilteredTarefas} tarefas={tarefas} />
-        {userData?.papel == "ADMIN" && <AddTarefa tiposDeTarefa={tiposTarefa} users={users}/>}
+        {userData?.papel == "ADMIN" && (
+          <AddTarefa tiposDeTarefa={tiposTarefa} users={users} />
+        )}
       </div>
       <div
         style={{
@@ -62,7 +64,9 @@ export default function Tarefas() {
             key={i.idTarefa}
             prazoFinal={i.dataFim}
             dataCriacao={i.dataCriacao}
-            numDevs={5}
+            numDevs={
+              usersHasTarefas.filter((UHT) => UHT.idTarefa == i.idTarefa).length
+            }
             tituloTarefa={i.nomeTarefa}
             tiposDeTarefa={tiposTarefa}
             descTarefa={i.descTarefa}
