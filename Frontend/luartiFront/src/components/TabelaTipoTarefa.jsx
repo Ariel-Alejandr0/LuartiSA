@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import EditTipoTarefa from "./EditTipoTarefa";
+import DeleteTipoTarefa from "./DeleteTipoTarefa";
 
 export default function TableTipoTarefa({
   numeroMaximoDeLinhas,
@@ -52,7 +54,14 @@ export default function TableTipoTarefa({
         {typesList.slice(0, numeroMaximoDeLinhas).map((typeTask, rowIndex) => (
           <React.Fragment key={typeTask.idTipoTarefa}>
             <div style={cellStyle}>{typeTask.idTipoTarefa}</div>
-            <div style={cellStyle}>{typeTask.descTipoTarefa}</div>
+            <div style={cellStyle}>
+              {typeTask.descTipoTarefa}
+              <EditTipoTarefa
+                id={typeTask.idTipoTarefa}
+                desc={typeTask.descTipoTarefa}
+              />
+              <DeleteTipoTarefa id={typeTask.idTipoTarefa} />
+            </div>
           </React.Fragment>
         ))}
       </div>
@@ -61,6 +70,7 @@ export default function TableTipoTarefa({
 }
 
 const cellStyle = {
+  position: "relative",
   border: "1px solid #ccc",
   padding: 10,
   textAlign: "center",
