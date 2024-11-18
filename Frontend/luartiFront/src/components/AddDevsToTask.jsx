@@ -7,7 +7,6 @@ const popupStyle = {
   width: "100%",
   maxHeight: 200,
   overflowY: "auto",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
   justifyContent: "center",
   alignItems: "center",
   zIndex: 9999,
@@ -15,7 +14,6 @@ const popupStyle = {
 
 const popupContentStyle = {
   backgroundColor: "#fff",
-  padding: "20px",
   borderRadius: "8px",
   width: "100%",
   position: "relative",
