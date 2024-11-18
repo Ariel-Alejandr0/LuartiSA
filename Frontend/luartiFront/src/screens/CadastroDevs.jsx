@@ -8,7 +8,7 @@ import { requestGetUsers } from "../service/GETS/GetUsers";
 import { useAuth } from "../contexts/auth";
 
 export default function CadastroDevs() {
-  const headers = ["ID", "NOME", "EMAIL", "SENHA", "ATIVO", "BLOQUEADO"];
+  const headers = ["ID", "NOME", "EMAIL", "SENHA", "PAPEL"];
   const { userData } = useAuth();
   const [devsList, setDevsList] = useState([]);
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function CadastroDevs() {
         setDevsList(request.filter((i) => i.idSuperior == userData.idPessoa));
       }
     }
-    getDevs()
+    getDevs();
   }, []);
 
   return (
@@ -33,7 +33,6 @@ export default function CadastroDevs() {
       >
         <Search />
         <AddDev />
-        <BloquearButton bloqueado={true} />
       </div>
       <div
         style={{
@@ -43,7 +42,11 @@ export default function CadastroDevs() {
           overflowY: "auto",
         }}
       >
-        <Table numeroMaximoDeLinhas={10} linhaDeCabecalho={headers} devsList={devsList}/>
+        <Table
+          numeroMaximoDeLinhas={10}
+          linhaDeCabecalho={headers}
+          devsList={devsList}
+        />
       </div>
     </MainLayout>
   );

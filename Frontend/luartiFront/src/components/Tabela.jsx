@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import EditarDev from "./EditarDev";
 
 export default function Table({
   numeroMaximoDeLinhas,
@@ -55,8 +56,17 @@ export default function Table({
             <div style={cellStyle}>{dev.nomeCompleto}</div>
             <div style={cellStyle}>{dev.email}</div>
             <div style={cellStyle}>{dev.status}</div>
-            <div style={cellStyle}>{dev.papel}</div>
-            <div style={cellStyle}>{dev.idSuperior}</div>
+            <div style={cellStyle}>
+              {dev.papel}{" "}
+              <EditarDev
+                id={dev.idPessoa}
+                email={dev.email}
+                nomeCompleto={dev.nomeCompleto}
+                senha={dev.senha}
+                status={dev.status}
+                papel={dev.papel}
+              />
+            </div>
           </React.Fragment>
         ))}
       </div>
@@ -68,4 +78,5 @@ const cellStyle = {
   border: "1px solid #ccc",
   padding: 10,
   textAlign: "center",
+  position: "relative",
 };
