@@ -229,7 +229,7 @@ export default function TarefaForm({
               width: "100%",
             }}
           >
-            {status !== "CONCLUIDA" && (
+            {(status !== "CONCLUIDA" && userData.status === "ATIVO") && (
               <MarcarComoConcluida taskData={formData} />
             )}
             {userData?.papel === "ADMIN" && (

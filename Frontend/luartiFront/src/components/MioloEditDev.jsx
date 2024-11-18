@@ -32,6 +32,7 @@ export default function MioloEditDev({ formInitial, formDataRef }) {
         <label>Email:</label>
         <label>Senha:</label>
         <label>Status:</label>
+        <label>Papel:</label>
       </div>
       <div
         style={{
@@ -58,10 +59,22 @@ export default function MioloEditDev({ formInitial, formDataRef }) {
           value={formData.senha}
           onChange={handleOnChange}
         />
-        <select style={{ margin: "6% 11%" }} onChange={handleOnChange}>
+        <select
+          id="status"
+          style={{ margin: "6% 11%" }}
+          onChange={handleOnChange}
+        >
           <option value={"ATIVO"}>ATIVO</option>
           <option value={"INATIVO"}>INATIVO</option>
           <option value={"BLOQUEADO"}>BLOQUEADO</option>
+        </select>
+        <select
+          id="papel"
+          style={{ margin: "6% 11%" }}
+          onChange={handleOnChange}
+        >
+          <option value={"ADMIN"}>ADMIN</option>
+          <option value={"DESENVOLVEDOR"}>DESENVOLVEDOR</option>
         </select>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { requestGetUsers } from "../service/GETS/GetUsers";
 import { useAuth } from "../contexts/auth";
 
 export default function CadastroDevs() {
-  const headers = ["ID", "NOME", "EMAIL", "SENHA", "PAPEL"];
+  const headers = ["ID", "NOME", "EMAIL", "STATUS", "PAPEL"];
   const { userData } = useAuth();
   const [devsList, setDevsList] = useState([]);
   useEffect(() => {
